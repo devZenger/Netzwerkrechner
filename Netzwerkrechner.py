@@ -93,7 +93,8 @@ class IPv4Page(tk.Frame):
             return self.ipv4_output.config(text="Fehlerhafte Eingabe")
         
         subnet_mask = [0]*4
-        i = 0
+        
+        j = 0
         in_process = True
         while in_process is True:
 
@@ -101,30 +102,31 @@ class IPv4Page(tk.Frame):
                 in_process = False
 
             elif cidir >= 8:
-                subnet_mask[i] = 255
+                subnet_mask[j] = 255
 
             elif 0 < cidir < 8:
-                wild = 8 - input
+                wild = 8 - cidir
                 print(f"wild = {wild}")
                 var_a = 0
                 for w in range(wild):
                     var_a = var_a + 2**w
                 var_b = 255 - var_a
-                subnet_mask[i] = var_b
+                subnet_mask[j] = var_b
                 break
 
             cidir = cidir - 8
-            i += 1
+            j += 1
         
-        
-        
-        
-        
-        
-        
-        
-        
-        return self.ipv4_output.config(text="Eingabe korrekt")
+        # net id calculation
+        net_ids = []
+        for i in range(4):
+            net_ids.append(ipv4_adresses[i] & subnet_mask[i])
+
+        net_id = " "
+        for net in net_ids:
+            net_id = net_id + str(net) + "."
+  
+        return self.ipv4_output.config(text=f"{net_id}")
 
        
 
