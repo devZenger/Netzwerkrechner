@@ -37,6 +37,12 @@ class Main(tk.Tk):
         frame.tkraise()
 
 
+
+        
+
+
+
+
 class IPv4Page(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -46,16 +52,38 @@ class IPv4Page(tk.Frame):
 
         ipv4_label = tk.Label(self, text="IP Adresse: ")
         ipv4_label.grid(row=2, column=0)
-        ipv4_input = tk.Entry(self)
-        ipv4_input.grid(row=2, column=1)
+        self.ipv4_input = tk.Entry(self)
+        self.ipv4_input.grid(row=2, column=1)
 
         cidir_label = tk.Label(self, text="CIDIR: ")
         cidir_label.grid(row=3, column=0)
         cidir_input = tk.Entry(self)
         cidir_input.grid(row=3, column=1)
 
-        cal_ipv4 = tk.Button(self, text="berechnen")
+        cal_ipv4 = tk.Button(self, text="berechnen",
+                             command=self.ipv4_calculation)
         cal_ipv4.grid(row=3, column=2)
+        
+        self.ipv4_output = tk.Label(self, text="")
+        self.ipv4_output.grid(row=4, column=1)
+
+    #  calculation
+    def ipv4_calculation(self):
+        try:
+            ipv4_input = self.ipv4_input.get()
+            ipv4_splits = ipv4_input.split(".")
+            ipv4_adresses = []
+            for i in range(4):
+                ipv4_adresses.append(int(ipv4_splits[i]))
+        except:
+            return self.ipv4_output.config(text="Fehlerhafte eingabe")
+
+        for ipv4_adress in ipv4_adresses:
+            if ipv4_adress < 0 or ipv4_adress > 255:
+                return self.ipv4_output.config(text="Fehlerhafte eingabe")
+        
+        return self.ipv4_output.config(text="Eingabe korrekt")
+
 
 
 class IPv6Page(tk.Frame):
