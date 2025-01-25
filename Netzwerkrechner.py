@@ -57,8 +57,8 @@ class IPv4Page(tk.Frame):
 
         cidir_label = tk.Label(self, text="CIDIR: ")
         cidir_label.grid(row=3, column=0)
-        cidir_input = tk.Entry(self)
-        cidir_input.grid(row=3, column=1)
+        self.cidir_input = tk.Entry(self)
+        self.cidir_input.grid(row=3, column=1)
 
         cal_ipv4 = tk.Button(self, text="berechnen",
                              command=self.ipv4_calculation)
@@ -69,6 +69,7 @@ class IPv4Page(tk.Frame):
 
     #  calculation
     def ipv4_calculation(self):
+        #IPv4 input check
         try:
             ipv4_input = self.ipv4_input.get()
             ipv4_splits = ipv4_input.split(".")
@@ -76,14 +77,56 @@ class IPv4Page(tk.Frame):
             for i in range(4):
                 ipv4_adresses.append(int(ipv4_splits[i]))
         except:
-            return self.ipv4_output.config(text="Fehlerhafte eingabe")
+            return self.ipv4_output.config(text="Fehlerhafte Eingabe")
 
         for ipv4_adress in ipv4_adresses:
             if ipv4_adress < 0 or ipv4_adress > 255:
-                return self.ipv4_output.config(text="Fehlerhafte eingabe")
+                return self.ipv4_output.config(text="Fehlerhafte Eingabe")
+        
+        #CIDIR input check
+        try:
+            cidir = int(self.cidir_input.get())
+        except:
+            return self.ipv4_output.config(text="Fehlerhafte Eingabe")
+        
+        if cidir < 0 or cidir > 32:
+            return self.ipv4_output.config(text="Fehlerhafte Eingabe")
+        
+        subnet_mask = [0]*4
+        i = 0
+        in_process = True
+        while in_process is True:
+
+            if cidir == 0:
+                in_process = False
+
+            elif cidir >= 8:
+                subnet_mask[i] = 255
+
+            elif 0 < cidir < 8:
+                wild = 8 - input
+                print(f"wild = {wild}")
+                var_a = 0
+                for w in range(wild):
+                    var_a = var_a + 2**w
+                var_b = 255 - var_a
+                subnet_mask[i] = var_b
+                break
+
+            cidir = cidir - 8
+            i += 1
+        
+        
+        
+        
+        
+        
+        
+        
         
         return self.ipv4_output.config(text="Eingabe korrekt")
 
+       
 
 
 class IPv6Page(tk.Frame):
