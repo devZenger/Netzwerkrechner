@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 class Main(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -37,12 +36,6 @@ class Main(tk.Tk):
         frame.tkraise()
 
 
-
-        
-
-
-
-
 class IPv4Page(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -63,13 +56,20 @@ class IPv4Page(tk.Frame):
         cal_ipv4 = tk.Button(self, text="berechnen",
                              command=self.ipv4_calculation)
         cal_ipv4.grid(row=3, column=2)
-        
+
         self.ipv4_output = tk.Label(self, text="")
         self.ipv4_output.grid(row=4, column=1)
 
-    #  calculation
+        self.binary_ipv4_output = tk.Label(self, text="")
+        self.binary_ipv4_output.grid(row=5, column=1)
+        self.binary_subnet_mask_output = tk.Label(self, text="")
+        self.binary_subnet_mask_output.grid(row=6, column=1)
+        self.binary_net_id_output = tk.Label(self, text="")
+        self.binary_net_id_output.grid(row=7, column=1)
+
+    # calculation
     def ipv4_calculation(self):
-        #IPv4 input check
+        # IPv4 input check
         try:
             ipv4_input = self.ipv4_input.get()
             ipv4_splits = ipv4_input.split(".")
@@ -82,18 +82,18 @@ class IPv4Page(tk.Frame):
         for ipv4_adress in ipv4_adresses:
             if ipv4_adress < 0 or ipv4_adress > 255:
                 return self.ipv4_output.config(text="Fehlerhafte Eingabe")
-        
-        #CIDIR input check
+
+        # CIDIR input check
         try:
             cidir = int(self.cidir_input.get())
         except:
             return self.ipv4_output.config(text="Fehlerhafte Eingabe")
-        
+
         if cidir < 0 or cidir > 32:
             return self.ipv4_output.config(text="Fehlerhafte Eingabe")
-        
+
         subnet_mask = [0]*4
-        
+
         j = 0
         in_process = True
         while in_process is True:
@@ -106,7 +106,6 @@ class IPv4Page(tk.Frame):
 
             elif 0 < cidir < 8:
                 wild = 8 - cidir
-                print(f"wild = {wild}")
                 var_a = 0
                 for w in range(wild):
                     var_a = var_a + 2**w
@@ -125,10 +124,29 @@ class IPv4Page(tk.Frame):
         net_id = " "
         for net in net_ids:
             net_id = net_id + str(net) + "."
-  
-        return self.ipv4_output.config(text=f"{net_id}")
 
+        # format to binary
+        binary_net_ids = []
+        binary_subnets = []
+        binary_ipv4_ads = []
+        for i in range(4):
+            binary_net_ids.append(format(net_ids[i], '08b'))
+            binary_subnets.append(format(subnet_mask[i], '08b'))
+            binary_ipv4_ads.append(format(ipv4_adresses[i], '08b'))
+
+        binary_net_id_str = binary_net_ids[0] + binary_net_ids[1] + binary_net_ids[2] + binary_net_ids[3]
+        binary_subnets_str = binary_subnets[0] + binary_subnets[1] +binary_subnets[2] + binary_subnets[3]
+        binary_ipv4_ads_str = binary_ipv4_ads[0] + binary_ipv4_ads[1] +binary_ipv4_ads[2] +binary_ipv4_ads[3]
+        
+        self.binary_ipv4_output.config(text=f"{binary_ipv4_ads_str}")
        
+        self.binary_subnet_mask_output.config(text=f"{binary_subnets_str}")
+        
+        self.binary_net_id_output.config(text=f"{binary_net_id_str}")
+       
+        
+        return self.ipv4_output.config(text=f"{binary_net_id_str}")
+
 
 
 class IPv6Page(tk.Frame):
