@@ -104,11 +104,18 @@ class IPv4Page(tk.Frame):
         self.binary_wildcard_mask_output.grid(row=7, column=2)
         
         net_id_output_label = tk.Label(self, text="Netzwerkadresse")
-        net_id_output_label.grid(row=10, column=0)
+        net_id_output_label.grid(row=9, column=0)
         self.decimal_net_id_output = tk.Label(self, text="")
-        self.decimal_net_id_output.grid(row=10, column=1)
+        self.decimal_net_id_output.grid(row=9, column=1)
         self.binary_net_id_output = tk.Label(self, text="")
-        self.binary_net_id_output.grid(row=10, column=2)
+        self.binary_net_id_output.grid(row=9, column=2)
+        
+        broadcast_output_label = tk.Label(self, text="Broadcast-Adresse")
+        broadcast_output_label.grid(row=10, column=0)
+        self.decimal_broadcast_output = tk.Label(self, text="")
+        self.decimal_broadcast_output.grid(row=10, column=1)
+        self.binary_broadcast_output = tk.Label(self, text="")
+        self.binary_broadcast_output.grid(row=10, column=2)
 
         
     # calculation
@@ -165,30 +172,33 @@ class IPv4Page(tk.Frame):
         
         # net id calculation
         net_ids = []
+        broadcasts = []
         for i in range(4):
             net_ids.append(ipv4_adresses[i] & subnet_mask[i])
+            broadcasts.append(net_ids[i] & wildcard_mask[i])
 
         net_id = " "
         for net in net_ids:
             net_id = net_id + str(net) + "."
 
         # format to binary
-        binary_net_id = in_one_binary_string(net_ids, cidir)
+        binary_ipv4_ads = in_one_binary_string(ipv4_adresses, cidir)
         binary_subnets = in_one_binary_string(subnet_mask, cidir)
         binary_wildcards = in_one_binary_string(wildcard_mask, cidir)
-        binary_ipv4_ads = in_one_binary_string(ipv4_adresses, cidir)
+        
+        binary_net_id = in_one_binary_string(net_ids, cidir)
+        binary_broadcast_ip = in_one_binary_string(broadcasts, cidir)
+
      
         self.binary_ipv4_output.config(text=f"{binary_ipv4_ads}") 
         self.binary_subnet_mask_output.config(text=f"{binary_subnets}")
         self.binary_wildcard_mask_output.config(text=f"{binary_wildcards}")
         self.binary_net_id_output.config(text=f"{binary_net_id}")
+        self.binary_broadcast_output.config(text=f"{binary_broadcast_ip}")
 
 
 
-
-
-
-        return self.ipv4_output.config(text=f"{binary_net_id}")
+        return self.ipv4_output.config(text=f"{net_id}")
 
 
 
