@@ -5,20 +5,20 @@ def in_one_binary_string(to_form, cidir):
     out = []
     for i in range(4):
         out.append(format(to_form[i], '08b'))
-    in_process = True 
-    j=0   
+    in_process = True
+    j = 0
     while in_process is True:
         if 0 < cidir < 8:
-            b = 8 - cidir
-            out[j] = out[j][cidir:] + " " + out[j][:b]
+            out[j] = out[j][:cidir] + " " + out[j][cidir:]
             in_process = False
         elif cidir == 0:
             in_process = False
         else:
             cidir = cidir - 8
-        j +=1
-        
-    in_one = f"{out[0]}.{out[1]}.{out[2]}.{out[3]}"       
+        j += 1
+
+    in_one = f"{out[0]}.{out[1]}.{out[2]}.{out[3]}"
+    print(in_one)
     return in_one
 
 
@@ -140,17 +140,18 @@ class IPv4Page(tk.Frame):
         wildcard_mask = [255]*4
         j = 0
         in_process = True
+        cidir_use = cidir
         while in_process is True:
 
-            if cidir == 0:
+            if cidir_use == 0:
                 in_process = False
 
-            elif cidir >= 8:
+            elif cidir_use >= 8:
                 subnet_mask[j] = 255
                 wildcard_mask[j] = 0
 
-            elif 0 < cidir < 8:
-                wild = 8 - cidir
+            elif 0 < cidir_use < 8:
+                wild = 8 - cidir_use
                 oktett = 0
                 for w in range(wild):
                     oktett = oktett + 2**w
@@ -159,7 +160,7 @@ class IPv4Page(tk.Frame):
                 wildcard_mask[j] = oktett
                 break
 
-            cidir = cidir - 8
+            cidir_use = cidir_use - 8
             j += 1
         
         # net id calculation
@@ -172,30 +173,22 @@ class IPv4Page(tk.Frame):
             net_id = net_id + str(net) + "."
 
         # format to binary
-        binary_net_ids = []
-        binary_subnets = []
-        binary_wildcards = []
-        binary_ipv4_ads = []
-        for i in range(4):
-            binary_net_ids.append(format(net_ids[i], '08b'))
-            binary_subnets.append(format(subnet_mask[i], '08b'))
-            binary_wildcards.append(format(wildcard_mask[i], '08b'))
-            binary_ipv4_ads.append(format(ipv4_adresses[i], '08b'))
-
-        binary_net_id_str = binary_net_ids[0] + binary_net_ids[1] + binary_net_ids[2] + binary_net_ids[3]
-        binary_subnets_str = binary_subnets[0] + binary_subnets[1] + binary_subnets[2] + binary_subnets[3]
-        binary_ipv4_ads_str = binary_ipv4_ads[0] + binary_ipv4_ads[1] +binary_ipv4_ads[2] + binary_ipv4_ads[3]
-
-        self.binary_ipv4_output.config(text=f"{binary_ipv4_ads_str}") 
-        self.binary_subnet_mask_output.config(text=f"{binary_subnets_str}")
-        self.binary_net_id_output.config(text=f"{binary_net_id_str}")
+        binary_net_id = in_one_binary_string(net_ids, cidir)
+        binary_subnets = in_one_binary_string(subnet_mask, cidir)
+        binary_wildcards = in_one_binary_string(wildcard_mask, cidir)
+        binary_ipv4_ads = in_one_binary_string(ipv4_adresses, cidir)
+     
+        self.binary_ipv4_output.config(text=f"{binary_ipv4_ads}") 
+        self.binary_subnet_mask_output.config(text=f"{binary_subnets}")
+        self.binary_wildcard_mask_output.config(text=f"{binary_wildcards}")
+        self.binary_net_id_output.config(text=f"{binary_net_id}")
 
 
 
 
 
 
-        return self.ipv4_output.config(text=f"{binary_net_id_str}")
+        return self.ipv4_output.config(text=f"{binary_net_id}")
 
 
 
