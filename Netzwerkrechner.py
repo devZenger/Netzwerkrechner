@@ -1,10 +1,32 @@
 import tkinter as tk
 
+
+def in_one_binary_string(to_form, cidir):
+    out = []
+    for i in range(4):
+        out.append(format(to_form[i], '08b'))
+    in_process = True 
+    j=0   
+    while in_process is True:
+        if 0 < cidir < 8:
+            b = 8 - cidir
+            out[j] = out[j][cidir:] + " " + out[j][:b]
+            in_process = False
+        elif cidir == 0:
+            in_process = False
+        else:
+            cidir = cidir - 8
+        j +=1
+        
+    in_one = f"{out[0]}.{out[1]}.{out[2]}.{out[3]}"       
+    return in_one
+
+
 class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Netzwerkrechner")
-        self.geometry("500x300")
+        self.geometry("800x300")
 
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)
@@ -60,13 +82,35 @@ class IPv4Page(tk.Frame):
         self.ipv4_output = tk.Label(self, text="")
         self.ipv4_output.grid(row=4, column=1)
 
+        ipv4_output_label = tk.Label(self, text="IPv4 Adresse")
+        ipv4_output_label.grid(row=5, column=0)
+        self.decimal_ipv4_output = tk.Label(self, text="")
+        self.decimal_ipv4_output.grid(row=7, column=1)
         self.binary_ipv4_output = tk.Label(self, text="")
-        self.binary_ipv4_output.grid(row=5, column=1)
+        self.binary_ipv4_output.grid(row=5, column=2)
+        
+        subnet_mask_output_label = tk.Label(self, text="Subnetzmaske")
+        subnet_mask_output_label.grid(row=6, column=0)
+        self.decimal_subnet_mask_output = tk.Label(self, text="")
+        self.decimal_subnet_mask_output.grid(row=6, column=1)
         self.binary_subnet_mask_output = tk.Label(self, text="")
-        self.binary_subnet_mask_output.grid(row=6, column=1)
+        self.binary_subnet_mask_output.grid(row=6, column=2)
+        
+        wildcard_mask_output_label = tk.Label(self, text="Wildcard-Maske")
+        wildcard_mask_output_label.grid(row=7, column=0)
+        self.decimal_wildcard_mask_output = tk.Label(self, text="")
+        self.decimal_wildcard_mask_output.grid(row=7, column=1)
+        self.binary_wildcard_mask_output = tk.Label(self, text="")
+        self.binary_wildcard_mask_output.grid(row=7, column=2)
+        
+        net_id_output_label = tk.Label(self, text="Netzwerkadresse")
+        net_id_output_label.grid(row=10, column=0)
+        self.decimal_net_id_output = tk.Label(self, text="")
+        self.decimal_net_id_output.grid(row=10, column=1)
         self.binary_net_id_output = tk.Label(self, text="")
-        self.binary_net_id_output.grid(row=7, column=1)
+        self.binary_net_id_output.grid(row=10, column=2)
 
+        
     # calculation
     def ipv4_calculation(self):
         # IPv4 input check
@@ -93,7 +137,7 @@ class IPv4Page(tk.Frame):
             return self.ipv4_output.config(text="Fehlerhafte Eingabe")
 
         subnet_mask = [0]*4
-
+        wildcard_mask = [255]*4
         j = 0
         in_process = True
         while in_process is True:
@@ -103,14 +147,16 @@ class IPv4Page(tk.Frame):
 
             elif cidir >= 8:
                 subnet_mask[j] = 255
+                wildcard_mask[j] = 0
 
             elif 0 < cidir < 8:
                 wild = 8 - cidir
-                var_a = 0
+                oktett = 0
                 for w in range(wild):
-                    var_a = var_a + 2**w
-                var_b = 255 - var_a
-                subnet_mask[j] = var_b
+                    oktett = oktett + 2**w
+                oktett_re = 255 - oktett
+                subnet_mask[j] = oktett_re
+                wildcard_mask[j] = oktett
                 break
 
             cidir = cidir - 8
@@ -128,23 +174,27 @@ class IPv4Page(tk.Frame):
         # format to binary
         binary_net_ids = []
         binary_subnets = []
+        binary_wildcards = []
         binary_ipv4_ads = []
         for i in range(4):
             binary_net_ids.append(format(net_ids[i], '08b'))
             binary_subnets.append(format(subnet_mask[i], '08b'))
+            binary_wildcards.append(format(wildcard_mask[i], '08b'))
             binary_ipv4_ads.append(format(ipv4_adresses[i], '08b'))
 
         binary_net_id_str = binary_net_ids[0] + binary_net_ids[1] + binary_net_ids[2] + binary_net_ids[3]
-        binary_subnets_str = binary_subnets[0] + binary_subnets[1] +binary_subnets[2] + binary_subnets[3]
-        binary_ipv4_ads_str = binary_ipv4_ads[0] + binary_ipv4_ads[1] +binary_ipv4_ads[2] +binary_ipv4_ads[3]
-        
-        self.binary_ipv4_output.config(text=f"{binary_ipv4_ads_str}")
-       
+        binary_subnets_str = binary_subnets[0] + binary_subnets[1] + binary_subnets[2] + binary_subnets[3]
+        binary_ipv4_ads_str = binary_ipv4_ads[0] + binary_ipv4_ads[1] +binary_ipv4_ads[2] + binary_ipv4_ads[3]
+
+        self.binary_ipv4_output.config(text=f"{binary_ipv4_ads_str}") 
         self.binary_subnet_mask_output.config(text=f"{binary_subnets_str}")
-        
         self.binary_net_id_output.config(text=f"{binary_net_id_str}")
-       
-        
+
+
+
+
+
+
         return self.ipv4_output.config(text=f"{binary_net_id_str}")
 
 
