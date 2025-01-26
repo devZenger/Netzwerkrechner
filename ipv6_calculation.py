@@ -1,11 +1,13 @@
 import tkinter as tk
+
+
 def input_zero(input, zero):
     for i in range(len(input)):
         if input[i] == ":" and input[i+1] == ":":
             rev = i + 1- len(input)
             print(f"i ={i}  und rev = {rev}  und länge = {len(input)}")
             print(input[:i])
-            input = input[:i] + zero + input[rev:]  
+            input = input[:i] + zero + input[rev:]
     return input
 
 
@@ -15,6 +17,7 @@ def add_zero_to_ipv6_input(input):
 
     count = input.count(":")
     if count < 8:
+        print("matchS")
         match count:
             case 7:
                 input = input_zero(input, ":0")
@@ -41,7 +44,7 @@ class IPv6Page(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
 
-        label = tk.Label(self, text="IPv6:", font=("Arial", 14))
+        label = tk.Label(self, text="IPv6:", font=(14))
         label.grid(row=0, column=0, pady=10)
 
         ipv6_label = tk.Label(self, text="IP Adresse: ")
@@ -67,10 +70,22 @@ class IPv6Page(tk.Frame):
         try:
             ipv6_input = add_zero_to_ipv6_input(ipv6_input)
         except:
-            self.error_output.config(text="Fehlerhafte Eingabe")
-            
+            return self.error_output.config(text="Fehlerhafte Eingabe")  
 
-            
-            
-            
+        ipv6_adresses = []
+        try:
+            ipv6_input_splits = ipv6_input.split(":")
+            for ipv6 in ipv6_input_splits:
+                ipv6_adresses.append(int(ipv6, 16))
+        except:
+            self.error_output.config(text="Fehlerhafte Eingabe")
+
+        if len(ipv6_adresses) != 8:
+            self.error_output.config(text="Fehlerhafte Eingabe")
+
+        for i in ipv6_adresses:
+            print(i, end="  ")
+
+
+
         print(ipv6_input)

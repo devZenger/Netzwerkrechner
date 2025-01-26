@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.font as font
 from ipv4_calculation import IPv4Page
 from ipv6_calculation import IPv6Page
 
@@ -7,8 +8,11 @@ class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Netzwerkrechner")
-        self.geometry("800x300")
-
+        self.geometry("900x500")
+        
+        default_font = font.Font(family="Consolas", size=14)
+        self.option_add("*Font", default_font) 
+         
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)
 

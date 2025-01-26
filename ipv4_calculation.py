@@ -33,7 +33,7 @@ class IPv4Page(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
 
-        label = tk.Label(self, text="IPv4:", font=("Arial", 14))
+        label = tk.Label(self, text="IPv4:", font=(14))
         label.grid(row=0, column=0, pady=10)
 
         ipv4_label = tk.Label(self, text="IP Adresse: ")
@@ -49,39 +49,41 @@ class IPv4Page(tk.Frame):
         cal_ipv4 = tk.Button(self, text="berechnen", command=self.ipv4_cal)
         cal_ipv4.grid(row=3, column=2)
 
+        default_setting = {'padx':(20,5), 'pady': 5, 'sticky': "ew"}
+
         self.error_output = tk.Label(self, text="")
         self.error_output.grid(row=4, column=1)
 
-        ipv4_output_label = tk.Label(self, text="IPv4 Adresse: ")
-        ipv4_output_label.grid(row=5, column=0)
+        ipv4_output_label = tk.Label(self, text="IPv4 Adresse: ", anchor="w")
+        ipv4_output_label.grid(**default_setting, row=5, column=0)
         self.deci_ipv4_output = tk.Label(self, text="")
         self.deci_ipv4_output.grid(row=5, column=1)
         self.binary_ipv4_output = tk.Label(self, text="")
         self.binary_ipv4_output.grid(row=5, column=2)
 
-        subnet_mask_output_label = tk.Label(self, text="Subnetzmaske: ")
-        subnet_mask_output_label.grid(row=6, column=0)
+        subnet_mask_output_label = tk.Label(self, text="Subnetzmaske: ", anchor="w")
+        subnet_mask_output_label.grid(**default_setting, row=6, column=0)
         self.deci_subnet_mask_output = tk.Label(self, text="")
         self.deci_subnet_mask_output.grid(row=6, column=1)
         self.binary_subnet_mask_output = tk.Label(self, text="")
         self.binary_subnet_mask_output.grid(row=6, column=2)
 
-        wildcard_mask_output_label = tk.Label(self, text="Wildcard-Maske: ")
-        wildcard_mask_output_label.grid(row=7, column=0)
+        wildcard_mask_output_label = tk.Label(self, text="Wildcard-Maske: ", anchor="w")
+        wildcard_mask_output_label.grid(**default_setting, row=7, column=0)
         self.deci_wildcard_mask_output = tk.Label(self, text="")
         self.deci_wildcard_mask_output.grid(row=7, column=1)
         self.binary_wildcard_mask_output = tk.Label(self, text="")
         self.binary_wildcard_mask_output.grid(row=7, column=2)
 
-        net_id_output_label = tk.Label(self, text="Netzwerkadresse: ")
-        net_id_output_label.grid(row=9, column=0)
+        net_id_output_label = tk.Label(self, text="Netzwerkadresse: ", anchor="w")
+        net_id_output_label.grid(**default_setting, row=9, column=0)
         self.deci_net_id_output = tk.Label(self, text="")
         self.deci_net_id_output.grid(row=9, column=1)
         self.binary_net_id_output = tk.Label(self, text="")
         self.binary_net_id_output.grid(row=9, column=2)
 
-        broadcast_output_label = tk.Label(self, text="Broadcast-Adresse")
-        broadcast_output_label.grid(row=10, column=0)
+        broadcast_output_label = tk.Label(self, text="Broadcast-Adresse:", anchor="w")
+        broadcast_output_label.grid(**default_setting, row=10, column=0)
         self.deci_broadcast_output = tk.Label(self, text="")
         self.deci_broadcast_output.grid(row=10, column=1)
         self.binary_broadcast_output = tk.Label(self, text="")
