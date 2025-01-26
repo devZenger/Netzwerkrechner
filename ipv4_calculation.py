@@ -65,8 +65,10 @@ class IPv4Page(tk.Frame):
         subnet_mask_output_label.grid(**default_setting, row=6, column=0)
         self.deci_subnet_mask_output = tk.Label(self, text="")
         self.deci_subnet_mask_output.grid(row=6, column=1)
-        self.binary_subnet_mask_output = tk.Label(self, text="")
+        self.binary_subnet_mask_output = tk.Text(self, height=1, width=36)
         self.binary_subnet_mask_output.grid(row=6, column=2)
+        self.binary_subnet_mask_output.tag_configure("red", foreground="red")
+        self.binary_subnet_mask_output.tag_configure("green", foreground="green")
 
         wildcard_mask_output_label = tk.Label(self, text="Wildcard-Maske: ", anchor="w")
         wildcard_mask_output_label.grid(**default_setting, row=7, column=0)
@@ -163,16 +165,40 @@ class IPv4Page(tk.Frame):
 
         # format to binary
         binary_ipv4_ads = in_one_binary_string(ipv4_adresses, cidir)
-        binary_subnets = in_one_binary_string(subnet_mask, cidir)
+        #binary_subnets = in_one_binary_string(subnet_mask, cidir)
         binary_wildcards = in_one_binary_string(wildcard_mask, cidir)
 
         binary_net_id = in_one_binary_string(net_ids, cidir)
         binary_broadcast_ip = in_one_binary_string(broadcasts, cidir)
 
         self.binary_ipv4_output.config(text=f"{binary_ipv4_ads}") 
-        self.binary_subnet_mask_output.config(text=f"{binary_subnets}")
+        #self.binary_subnet_mask_output.config(text=f"{binary_subnets}")
         self.binary_wildcard_mask_output.config(text=f"{binary_wildcards}")
         self.binary_net_id_output.config(text=f"{binary_net_id}")
         self.binary_broadcast_output.config(text=f"{binary_broadcast_ip}")
+
+        binary_subnets = []
+        for i in range(4):
+            binary_subnets.append(format(subnet_mask[i], '08b'))
+
+        for i in range(len(binary_subnets)):
+            count = binary_subnets[i].count("1")
+            print(count)
+            if count == 8:
+                self.binary_subnet_mask_output.insert("end", binary_subnets[i], "red")
+                self.binary_subnet_mask_output.insert("end", ".", "black")
+            if 0 < count < 8:
+                self.binary_subnet_mask_output.insert("end", binary_subnets[i][:count], "red")
+                self.binary_subnet_mask_output.insert("end", binary_subnets[i][count:], "green")
+                self.binary_subnet_mask_output.insert("end", ".", "black")
+            if count == 0 and i != 3:
+                self.binary_subnet_mask_output.insert("end", binary_subnets[i], "green")
+                self.binary_subnet_mask_output.insert("end", ".", "black")
+            if count == 0 and i == 3:
+                self.binary_subnet_mask_output.insert("end", binary_subnets[i], "green")
+              
+
+
+
 
         return self.error_output.config(text="Ergebnis:")
