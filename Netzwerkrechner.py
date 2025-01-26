@@ -38,12 +38,6 @@ class Main(tk.Tk):
         frame = self.frames[page]
         frame.tkraise()
 
-
-
-
-
-
-
 #  start programm
 start = Main()
 start.mainloop()
