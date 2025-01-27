@@ -66,8 +66,9 @@ class IPv4Page(tk.Frame):
         subnet_mask_output_label.grid(**default_setting, row=6, column=0)
         self.deci_subnet_mask_output = tk.Label(self, text="")
         self.deci_subnet_mask_output.grid(row=6, column=1)
-        self.binary_subnet_mask_output = tk.Text(self, height=1, width=36, relief=tk.FLAT, bg=self['bg'])
+        self.binary_subnet_mask_output = tk.Text(self, height=1, width=36, relief=tk.FLAT, bg=self['bg'], state=tk.DISABLED)
         self.binary_subnet_mask_output.grid(row=6, column=2)
+        
         self.binary_subnet_mask_output.tag_configure("red", foreground="red")
         self.binary_subnet_mask_output.tag_configure("green", foreground="green")
 
@@ -201,6 +202,7 @@ class IPv4Page(tk.Frame):
         for i in range(4):
             binary_subnets.append(format(subnet_mask[i], '08b'))
 
+        self.binary_subnet_mask_output.config(state=tk.NORMAL)
         self.binary_subnet_mask_output.delete('1.0', tk.END)
         for i in range(len(binary_subnets)):
             count = binary_subnets[i].count("1")
@@ -217,6 +219,8 @@ class IPv4Page(tk.Frame):
                 self.binary_subnet_mask_output.insert("end", ".", "black")
             if count == 0 and i == 3:
                 self.binary_subnet_mask_output.insert("end", binary_subnets[i], "green")
+        
+        self.binary_subnet_mask_output.config(state=tk.DISABLED)
               
 
         return self.error_output.config(text="Ergebnis:")
