@@ -25,6 +25,9 @@ class Main(tk.Tk):
         ipv6_button = tk.Button(self.top_frame, text="IPv6 Rechner",
                                 command=lambda: self.show_frame(IPv6Page))
         ipv6_button.grid(row=0, column=1, padx=10, pady=10)
+        close_button = tk.Button(self.top_frame, text="Schließen",
+                                command= self.close_window)
+        close_button.grid(row=0, column=2, padx=10, pady=10)
 
         self.main_frame = tk.Frame(self.container)
         self.main_frame.pack(fill="both", expand=True, side="bottom")
@@ -41,6 +44,9 @@ class Main(tk.Tk):
     def show_frame(self, page):
         frame = self.frames[page]
         frame.tkraise()
+    
+    def close_window(self):
+        self.destroy()
 
 #  start programm
 start = Main()
