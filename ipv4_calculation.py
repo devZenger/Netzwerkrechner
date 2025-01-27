@@ -66,7 +66,7 @@ class IPv4Page(tk.Frame):
         subnet_mask_output_label.grid(**default_setting, row=6, column=0)
         self.deci_subnet_mask_output = tk.Label(self, text="")
         self.deci_subnet_mask_output.grid(row=6, column=1)
-        self.binary_subnet_mask_output = tk.Text(self, height=1, width=36)
+        self.binary_subnet_mask_output = tk.Text(self, height=1, width=36, relief=tk.FLAT, bg=self['bg'])
         self.binary_subnet_mask_output.grid(row=6, column=2)
         self.binary_subnet_mask_output.tag_configure("red", foreground="red")
         self.binary_subnet_mask_output.tag_configure("green", foreground="green")
@@ -97,17 +97,19 @@ class IPv4Page(tk.Frame):
         
     # open save window
     def open_save_window(self):
-        output_head = f"IPv4:\n Berechnung für {self.deci_ipv4_str}\n\n"
-        output_ip = f"Ipv4 Adresse: {self.deci_ipv4_str} {self.binary_ipv4_ads}\n"  
-        output_subnet = f"Subnetzmaske: {self.deci_subnets_str} {self.binary_subnets_black}\n"
-        output_wildcard = f"Wildcard-Maske: {self.deci_wildcard_maks_str} {self.binary_wildcards}\n"
-        output_net_id = f"Netzwerkadresse: {self.deci_net_id_str} {self.binary_net_id}\n"
-        output_broadcast = f"Broadcast-Adresse: {self.deci_broadcast_str} {self.binary_broadcast_ip}\n" 
-        output = [output_head, output_ip, output_subnet, output_wildcard, output_net_id, output_broadcast]
-        save_window = Save_Output_Window(self, output) 
-        save_window.grab_set()
-         
-        
+        try:
+            output_head = f"IPv4:\n Berechnung für {self.deci_ipv4_str}\n\n"
+            output_ip = f"Ipv4 Adresse:\t\t{self.deci_ipv4_str}\t\t{self.binary_ipv4_ads}\n"  
+            output_subnet = f"Subnetzmaske:\t\t{self.deci_subnets_str}\t\t{self.binary_subnets_black}\n"
+            output_wildcard = f"Wildcard-Maske:\t\t{self.deci_wildcard_maks_str}\t\t{self.binary_wildcards}\n"
+            output_net_id = f"Netzwerkadresse:\t{self.deci_net_id_str}\t\t{self.binary_net_id}\n"
+            output_broadcast = f"Broadcast-Adresse:\t{self.deci_broadcast_str}\t\t{self.binary_broadcast_ip}\n" 
+            output = [output_head, output_ip, output_subnet, output_wildcard, output_net_id, output_broadcast]
+            save_window = Save_Output_Window(self, output) 
+            save_window.grab_set()
+        except:
+            self.error_output.config(text="Berechnung fehlt")
+             
 
     # calculation
     def ipv4_cal(self):
@@ -169,30 +171,29 @@ class IPv4Page(tk.Frame):
             broadcasts.append(net_ids[i] | wildcard_mask[i])
 
         # format to decimal string
-        self.deci_ipv4_str = in_one_decimal_string(ipv4_adresses)
+        self.deci_ipv4_str = (in_one_decimal_string(ipv4_adresses)).rjust(15)
         self.deci_ipv4_output.config(text=f"{self.deci_ipv4_str}")
-        self.deci_subnets_str = in_one_decimal_string(subnet_mask)
+        self.deci_subnets_str = (in_one_decimal_string(subnet_mask)).rjust(15)
         self.deci_subnet_mask_output.config(text=f"{self.deci_subnets_str}")
-        self.deci_wildcard_maks_str = in_one_decimal_string(wildcard_mask)
+        self.deci_wildcard_maks_str = (in_one_decimal_string(wildcard_mask)).rjust(15)
         self.deci_wildcard_mask_output.config(text=f"{self.deci_wildcard_maks_str}")
-        
-        self.deci_net_id_str = in_one_decimal_string(net_ids)
+        self.deci_net_id_str = (in_one_decimal_string(net_ids)).rjust(15)
         self.deci_net_id_output.config(text=f"{self.deci_net_id_str}")
-        self.deci_broadcast_str = in_one_decimal_string(broadcasts)
+        self.deci_broadcast_str = (in_one_decimal_string(broadcasts)).rjust(15)
         self.deci_broadcast_output.config(text=f"{self.deci_broadcast_str}")
 
         # format to binary
         self.binary_ipv4_ads = in_one_binary_string(ipv4_adresses, cidir)
         self.binary_ipv4_output.config(text=f"{self.binary_ipv4_ads}") 
-        
+
         self.binary_subnets_black = in_one_binary_string(subnet_mask, cidir)
-        
+
         self.binary_wildcards = in_one_binary_string(wildcard_mask, cidir)
         self.binary_wildcard_mask_output.config(text=f"{self.binary_wildcards}")
-        
+
         self.binary_net_id = in_one_binary_string(net_ids, cidir)
         self.binary_net_id_output.config(text=f"{self.binary_net_id}")
-        
+
         self.binary_broadcast_ip = in_one_binary_string(broadcasts, cidir)
         self.binary_broadcast_output.config(text=f"{self.binary_broadcast_ip}")
 
@@ -200,6 +201,7 @@ class IPv4Page(tk.Frame):
         for i in range(4):
             binary_subnets.append(format(subnet_mask[i], '08b'))
 
+        self.binary_subnet_mask_output.delete('1.0', tk.END)
         for i in range(len(binary_subnets)):
             count = binary_subnets[i].count("1")
             if count == 8:
@@ -207,6 +209,7 @@ class IPv4Page(tk.Frame):
                 self.binary_subnet_mask_output.insert("end", ".", "black")
             if 0 < count < 8:
                 self.binary_subnet_mask_output.insert("end", binary_subnets[i][:count], "red")
+                self.binary_subnet_mask_output.insert("end", " ", "black")
                 self.binary_subnet_mask_output.insert("end", binary_subnets[i][count:], "green")
                 self.binary_subnet_mask_output.insert("end", ".", "black")
             if count == 0 and i != 3:

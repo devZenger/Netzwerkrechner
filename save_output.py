@@ -28,9 +28,11 @@ class Save_Output_Window(tk.Toplevel):
         try:
             file_name = self.file_name_input.get()
             d = open(f"{file_name}", "w")
-                        
-            d.close()
             
+            for save in self.to_save:
+                d.write(f"{save}")
+   
+            d.close()
             self.message.config(text="gespeichert")
         
         except:
