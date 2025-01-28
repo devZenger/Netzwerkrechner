@@ -70,15 +70,10 @@ class IPv6Page(tk.Frame):
         self.ipv6_output = tk.Label(self, text="")
         self.ipv6_output.grid(row=5, column=1)
 
-        subnet_mask_output_label = tk.Label(self, text="Subnetzmaske: ", anchor="w")
-        subnet_mask_output_label.grid(**default_setting, row=6, column=0)
-        self.subnet_mask_output = tk.Label(self, text="")
-        self.subnet_mask_output.grid(row=6, column=1)
-
-        wildcard_mask_output_label = tk.Label(self, text="Wildcard-Maske: ", anchor="w")
-        wildcard_mask_output_label.grid(**default_setting, row=7, column=0)
-        self.wildcard_mask_output = tk.Label(self, text="")
-        self.wildcard_mask_output.grid(row=7, column=1)
+        praefix_output_label = tk.Label(self, text="Präfix: ", anchor="w")
+        praefix_output_label.grid(**default_setting, row=6, column=0)
+        self.praefix_output = tk.Label(self, text="")
+        self.praefix_output.grid(row=6, column=1)
 
         net_id_output_label = tk.Label(self, text="Netzwerkadresse: ", anchor="w")
         net_id_output_label.grid(**default_setting, row=8, column=0)
@@ -119,6 +114,31 @@ class IPv6Page(tk.Frame):
 
         if cidir < 0 or cidir > 128 :
             self.error_output.config(text="Fehlerhafte Eingabe")
+        
+        # präfix calculation
+        in_process = True
+        j = 0
+        praefix= [0]*8
+
+        while in_process == True:
+            
+            if cidir == 0:
+                in_process == False
+            
+            elif cidir >= 16:
+                praefix[j] = 65_535
+            elif 0 < cidir < 16 :
+                wild = 16 - cidir
+                dekaexi = 0
+                for w in range (wild):
+                    dekaexi = dekaexi + 2**w
+                dekaexi_re = 65_535 - dekaexi
+                praefix[j] = dekaexi_re
+                break
+            
+            cidir = cidir - 16
+            j += 1
+
         
         for i in ipv6_adresses:
             print(i, end="  ")
