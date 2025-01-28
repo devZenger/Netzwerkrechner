@@ -70,8 +70,8 @@ class IPv6Page(tk.Frame):
         self.ipv6_output = tk.Label(self, text="")
         self.ipv6_output.grid(row=5, column=1)
 
-        praefix_output_label = tk.Label(self, text="Präfix: ", anchor="w")
-        praefix_output_label.grid(**default_setting, row=6, column=0)
+        prefix_output_label = tk.Label(self, text="Präfix: ", anchor="w")
+        prefix_output_label.grid(**default_setting, row=6, column=0)
         self.praefix_output = tk.Label(self, text="")
         self.praefix_output.grid(row=6, column=1)
 
@@ -118,7 +118,7 @@ class IPv6Page(tk.Frame):
         # präfix calculation
         in_process = True
         j = 0
-        praefix= [0]*8
+        prefix= [0]*8
 
         while in_process == True:
             
@@ -126,22 +126,39 @@ class IPv6Page(tk.Frame):
                 in_process == False
             
             elif cidir >= 16:
-                praefix[j] = 65_535
+                prefix[j] = 65_535
             elif 0 < cidir < 16 :
                 wild = 16 - cidir
                 dekaexi = 0
                 for w in range (wild):
                     dekaexi = dekaexi + 2**w
                 dekaexi_re = 65_535 - dekaexi
-                praefix[j] = dekaexi_re
+                prefix[j] = dekaexi_re
                 break
             
             cidir = cidir - 16
             j += 1
+            
+        
+        # net id calculation & broadcast ip
+        net_ids = []
+        for i in range(8):
+            net_ids.append(ipv6_adresses[i] & prefix[i])
+
 
         
         for i in ipv6_adresses:
             print(i, end="  ")
+        
+        
+        for sub in prefix:
+            print(sub, end=" ") 
+
+        print()
+
+        for sub in prefix:
+            print(f"{sub:X}", end=" ") 
+        
 
 
 
