@@ -1,5 +1,50 @@
 import tkinter as tk
 
+def in_short(to_forms):
+    current_count = 0
+    max_count = 0
+    current_index = 0
+    max_index = 0
+    for i, form in enumerate(to_forms):
+        if form == 0:
+            if current_count == 0:
+                current_index = i
+            current_count += 1
+        else:
+            if current_count > max_count:
+                max_count = current_count
+                max_index = current_index
+            current_count = 0
+        
+            
+    if current_count > max_count:
+                max_count = current_count
+                max_index = current_index
+                
+    strForm = ""  
+    print(f"max_index: {max_index} und max_count = {max_count}")  
+    for i, form in enumerate(to_forms):
+
+        if i == max_index :
+            print
+            strForm = f"{strForm}:"
+
+        elif max_index < i < (max_index + max_count):
+            continue
+        else:
+            strForm = f"{strForm}{form}:"
+    
+    return strForm[:-1] 
+
+
+def in_one_hex_str(to_form):
+    str_hex = ""
+    for form in to_form:
+        hex = f"{form:X}".rjust(4, '0')
+        str_hex = f"{str_hex}{hex}:"
+
+    return str_hex[:-1].lower()  
+
 
 def input_zero(input, zero):
     for i in range(len(input)):
@@ -69,16 +114,22 @@ class IPv6Page(tk.Frame):
         ipv6_output_label.grid(**default_setting, row=5, column=0)
         self.ipv6_output = tk.Label(self, text="")
         self.ipv6_output.grid(row=5, column=1)
+        self.ipv6_short_output = tk.Label(self, text="")
+        self.ipv6_short_output.grid(row=5, column=2)
 
         prefix_output_label = tk.Label(self, text="Präfix: ", anchor="w")
         prefix_output_label.grid(**default_setting, row=6, column=0)
-        self.praefix_output = tk.Label(self, text="")
-        self.praefix_output.grid(row=6, column=1)
+        self.prefix_output = tk.Label(self, text="")
+        self.prefix_output.grid(row=6, column=1)
+        self.prefix_short_output = tk.Label(self, text="")
+        self.prefix_short_output.grid(row=6, column=2)
 
         net_id_output_label = tk.Label(self, text="Netzwerkadresse: ", anchor="w")
-        net_id_output_label.grid(**default_setting, row=8, column=0)
+        net_id_output_label.grid(**default_setting, row=7, column=0)
         self.net_id_output = tk.Label(self, text="")
-        self.net_id_output.grid(row=8, column=1)
+        self.net_id_output.grid(row=7, column=1)
+        self.net_id_short_output = tk.Label(self, text="")
+        self.net_id_short_output.grid(row=7, column=2)
 
         broadcast_output_label = tk.Label(self, text="Broadcast-Adresse:", anchor="w")
         broadcast_output_label.grid(**default_setting, row=9, column=0)
@@ -124,7 +175,6 @@ class IPv6Page(tk.Frame):
             
             if cidir == 0:
                 in_process == False
-            
             elif cidir >= 16:
                 prefix[j] = 65_535
             elif 0 < cidir < 16 :
@@ -138,28 +188,33 @@ class IPv6Page(tk.Frame):
             
             cidir = cidir - 16
             j += 1
-            
-        
+
         # net id calculation & broadcast ip
         net_ids = []
         for i in range(8):
+            print(i)
             net_ids.append(ipv6_adresses[i] & prefix[i])
 
 
+        ipv6_hex_str = in_one_hex_str(ipv6_adresses)
+        self.ipv6_output.config(text=f"{ipv6_hex_str}")
         
-        for i in ipv6_adresses:
-            print(i, end="  ")
+        prefix_hex_str = in_one_hex_str(prefix)
+        self.prefix_output.config(text=f"{prefix_hex_str}")
+        
+        net_id_hex_str = in_one_hex_str(net_ids)
+        self.net_id_output.config(text=f"{net_id_hex_str}")
+
+
+        ipv6_short_str = in_short(ipv6_adresses)
+        self.ipv6_short_output.config(text=f"{ipv6_short_str}")
+        
+        prefix_short_str = in_short(prefix)
+        self.prefix_short_output.config(text=f"{prefix_short_str}")
+        
+        net_id_short_str = in_short(net_ids)
+        self.net_id_short_output.config(text=f"{net_id_short_str}")
         
         
-        for sub in prefix:
-            print(sub, end=" ") 
-
-        print()
-
-        for sub in prefix:
-            print(f"{sub:X}", end=" ") 
         
-
-
-
-        print(ipv6_input)
+        return self.error_output.config(text="Ergebnis:")
