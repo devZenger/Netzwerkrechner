@@ -9,10 +9,10 @@ class Info_Window(tk.Toplevel):
 
         label = tk.Label(self, text="Informationen:")
         label.pack(pady=15)
-        
+
         label = tk.Label(self, text="Programmiert von Christian Zenger")
         label.pack(pady=10)
-                
+
         label = tk.Label(self, text="GitHub: https://github.com/devZenger/Netzwerkrechner")
         label.pack(pady=10)
 

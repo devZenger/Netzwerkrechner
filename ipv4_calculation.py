@@ -94,7 +94,7 @@ class IPv4Page(tk.Frame):
         self.binary_broadcast_output.grid(row=9, column=2)
 
         bt_save_ipv4_output = tk.Button(self, text="Ergebnis speichern", command=self.open_save_window )
-        bt_save_ipv4_output.grid(row=10, column=2)
+        bt_save_ipv4_output.grid(pady=10, row=10, column=2)
 
     # open save window
     def open_save_window(self):
