@@ -106,7 +106,7 @@ class IPv4Page(tk.Frame):
             output_net_id = f"Netzwerkadresse:\t{self.deci_net_id_str}\t\t{self.binary_net_id}\n"
             output_broadcast = f"Broadcast-Adresse:\t{self.deci_broadcast_str}\t\t{self.binary_broadcast_ip}\n" 
             output = [output_head, output_ip, output_subnet, output_wildcard, output_net_id, output_broadcast]
-            save_window = Save_Output_Window(self, output) 
+            save_window = Save_Output_Window(self, output)
             save_window.grab_set()
         except:
             self.error_output.config(text="Berechnung fehlt")
