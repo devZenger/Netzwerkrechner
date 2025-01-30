@@ -21,13 +21,13 @@ def in_one_binary_string(to_form, cidir):
     in_one = f"{out[0]}.{out[1]}.{out[2]}.{out[3]}"
     return in_one
 
+
 def in_one_decimal_string(to_form):
     out = ""
     for form in to_form:
         out = out + str(form) + "."
     out = out[:-1]
     return out
-
 
 
 class IPv4Page(tk.Frame):
@@ -68,7 +68,7 @@ class IPv4Page(tk.Frame):
         self.deci_subnet_mask_output.grid(row=6, column=1)
         self.binary_subnet_mask_output = tk.Text(self, height=1, width=36, relief=tk.FLAT, bg=self['bg'], state=tk.DISABLED)
         self.binary_subnet_mask_output.grid(row=6, column=2)
-        
+
         self.binary_subnet_mask_output.tag_configure("red", foreground="red")
         self.binary_subnet_mask_output.tag_configure("green", foreground="green")
 
@@ -92,14 +92,14 @@ class IPv4Page(tk.Frame):
         self.deci_broadcast_output.grid(row=9, column=1)
         self.binary_broadcast_output = tk.Label(self, text="")
         self.binary_broadcast_output.grid(row=9, column=2)
-        
+
         bt_save_ipv4_output = tk.Button(self, text="Ergebnis speichern", command=self.open_save_window )
         bt_save_ipv4_output.grid(row=10, column=2)
-        
+
     # open save window
     def open_save_window(self):
         try:
-            output_head = f"IPv4:\n Berechnung für {self.deci_ipv4_str}\n\n"
+            output_head = f"IPv4:\nBerechnung für {self.deci_ipv4_str}\n\n"
             output_ip = f"Ipv4 Adresse:\t\t{self.deci_ipv4_str}\t\t{self.binary_ipv4_ads}\n"  
             output_subnet = f"Subnetzmaske:\t\t{self.deci_subnets_str}\t\t{self.binary_subnets_black}\n"
             output_wildcard = f"Wildcard-Maske:\t\t{self.deci_wildcard_maks_str}\t\t{self.binary_wildcards}\n"
@@ -110,7 +110,6 @@ class IPv4Page(tk.Frame):
             save_window.grab_set()
         except:
             self.error_output.config(text="Berechnung fehlt")
-             
 
     # calculation
     def ipv4_cal(self):
@@ -219,8 +218,8 @@ class IPv4Page(tk.Frame):
                 self.binary_subnet_mask_output.insert("end", ".", "black")
             if count == 0 and i == 3:
                 self.binary_subnet_mask_output.insert("end", binary_subnets[i], "green")
-        
+
         self.binary_subnet_mask_output.config(state=tk.DISABLED)
-              
+
 
         return self.error_output.config(text="Ergebnis:")

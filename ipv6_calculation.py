@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 def in_short(to_forms):
     current_count = 0
     max_count = 0
@@ -15,17 +16,16 @@ def in_short(to_forms):
                 max_count = current_count
                 max_index = current_index
             current_count = 0
-        
-            
+
     if current_count > max_count:
-                max_count = current_count
-                max_index = current_index
-                
+        max_count = current_count
+        max_index = current_index
+
     strForm = ""  
     print(f"max_index: {max_index} und max_count = {max_count}")  
     for i, form in enumerate(to_forms):
 
-        if i == max_index :
+        if i == max_index:
             print
             strForm = f"{strForm}:"
 
@@ -33,7 +33,7 @@ def in_short(to_forms):
             continue
         else:
             strForm = f"{strForm}{form}:"
-    
+
     return strForm[:-1] 
 
 
@@ -43,7 +43,7 @@ def in_one_hex_str(to_form):
         hex = f"{form:X}".rjust(4, '0')
         str_hex = f"{str_hex}{hex}:"
 
-    return str_hex[:-1].lower()  
+    return str_hex[:-1].lower()
 
 
 def input_zero(input, zero):
@@ -84,12 +84,11 @@ def add_zero_to_ipv6_input(input):
     return input
 
 
-
 class IPv6Page(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
-        
-        default_setting = {'padx':(20,5), 'pady': 5, 'sticky': "ew"}
+
+        default_setting = {'padx': (20, 5), 'pady': 5, 'sticky': "ew"}
 
         label = tk.Label(self, text="IPv6:", font=(14))
         label.grid(row=0, column=0, pady=10)
@@ -109,7 +108,7 @@ class IPv6Page(tk.Frame):
 
         self.error_output = tk.Label(self, text="")
         self.error_output.grid(row=4, column=1)
-        
+
         ipv6_output_label = tk.Label(self, text="IPv6 Adresse: ", anchor="w")
         ipv6_output_label.grid(**default_setting, row=5, column=0)
         self.ipv6_output = tk.Label(self, text="")
@@ -136,14 +135,13 @@ class IPv6Page(tk.Frame):
         self.broadcast_output = tk.Label(self, text="")
         self.broadcast_output.grid(row=9, column=1)
 
-
     # ipv6 calculation
     def ipv6_cal(self):
         ipv6_input = self.ipv6_input.get()
         try:
             ipv6_input = add_zero_to_ipv6_input(ipv6_input)
         except:
-            return self.error_output.config(text="Fehlerhafte Eingabe")  
+            return self.error_output.config(text="Fehlerhafte Eingabe") 
 
         ipv6_adresses = []
         try:
@@ -161,31 +159,30 @@ class IPv6Page(tk.Frame):
             cidir = int(self.cidir_input.get())
         except:
             self.error_output.config(text="Fehlerhafte Eingabe")
-            
 
-        if cidir < 0 or cidir > 128 :
+        if cidir < 0 or cidir > 128:
             self.error_output.config(text="Fehlerhafte Eingabe")
-        
+
         # präfix calculation
         in_process = True
         j = 0
         prefix= [0]*8
 
-        while in_process == True:
-            
+        while in_process is True:
+
             if cidir == 0:
-                in_process == False
+                in_process is False
             elif cidir >= 16:
                 prefix[j] = 65_535
-            elif 0 < cidir < 16 :
+            elif 0 < cidir < 16:
                 wild = 16 - cidir
                 dekaexi = 0
-                for w in range (wild):
+                for w in range(wild):
                     dekaexi = dekaexi + 2**w
                 dekaexi_re = 65_535 - dekaexi
                 prefix[j] = dekaexi_re
                 break
-            
+
             cidir = cidir - 16
             j += 1
 
@@ -195,26 +192,22 @@ class IPv6Page(tk.Frame):
             print(i)
             net_ids.append(ipv6_adresses[i] & prefix[i])
 
-
         ipv6_hex_str = in_one_hex_str(ipv6_adresses)
         self.ipv6_output.config(text=f"{ipv6_hex_str}")
-        
+
         prefix_hex_str = in_one_hex_str(prefix)
         self.prefix_output.config(text=f"{prefix_hex_str}")
-        
+
         net_id_hex_str = in_one_hex_str(net_ids)
         self.net_id_output.config(text=f"{net_id_hex_str}")
 
-
         ipv6_short_str = in_short(ipv6_adresses)
         self.ipv6_short_output.config(text=f"{ipv6_short_str}")
-        
+
         prefix_short_str = in_short(prefix)
         self.prefix_short_output.config(text=f"{prefix_short_str}")
-        
+
         net_id_short_str = in_short(net_ids)
         self.net_id_short_output.config(text=f"{net_id_short_str}")
-        
-        
-        
+
         return self.error_output.config(text="Ergebnis:")
