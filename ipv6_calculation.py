@@ -140,16 +140,16 @@ class IPv6Page(tk.Frame):
         ipv6_input = self.ipv6_input.get()
         try:
             ipv6_input = add_zero_to_ipv6_input(ipv6_input)
-        except:
-            return self.error_output.config(text="Fehlerhafte Eingabe") 
+        except Exception as e:
+            return self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
 
         ipv6_adresses = []
         try:
             ipv6_input_splits = ipv6_input.split(":")
             for ipv6 in ipv6_input_splits:
                 ipv6_adresses.append(int(ipv6, 16))
-        except:
-            self.error_output.config(text="Fehlerhafte Eingabe")
+        except Exception as e:
+            self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
 
         if len(ipv6_adresses) != 8:
             print(len(ipv6_adresses))
@@ -157,8 +157,8 @@ class IPv6Page(tk.Frame):
 
         try:
             cidir = int(self.cidir_input.get())
-        except:
-            self.error_output.config(text="Fehlerhafte Eingabe")
+        except Exception as e:
+            self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
 
         if cidir < 0 or cidir > 128:
             self.error_output.config(text="Fehlerhafte Eingabe")
@@ -166,7 +166,7 @@ class IPv6Page(tk.Frame):
         # präfix calculation
         in_process = True
         j = 0
-        prefix= [0]*8
+        prefix = [0]*8
 
         while in_process is True:
 
