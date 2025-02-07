@@ -2,6 +2,12 @@ import tkinter as tk
 from save_output import Save_Output_Window
 
 
+def number_of_hosts(wildmask):
+    
+    numbers = wildmask.count("1")
+    return str(2**numbers -2)
+
+
 def in_one_binary_string(to_form, cidir):
     out = []
     for i in range(4):
@@ -93,9 +99,14 @@ class IPv4Page(tk.Frame):
         self.deci_broadcast_output.grid(row=9, column=1)
         self.binary_broadcast_output = tk.Label(self, text="")
         self.binary_broadcast_output.grid(row=9, column=2)
+        
+        hosts_output_label = tk.Label(self, text="Hostanzahl: ", anchor="w")
+        hosts_output_label.grid(**default_setting, row=10, column=0)
+        self.hosts_output = tk.Label(self, text="")
+        self.hosts_output.grid(row=10, column=1)
 
         bt_save_ipv4_output = tk.Button(self, text="Ergebnis speichern", command=self.open_save_window)
-        bt_save_ipv4_output.grid(pady=10, row=10, column=2)
+        bt_save_ipv4_output.grid(pady=10, row=11 , column=2)
 
     # open save window
     def open_save_window(self):
@@ -105,8 +116,9 @@ class IPv4Page(tk.Frame):
             output_subnet = f"Subnetzmaske:\t\t{self.deci_subnets_str}\t\t{self.binary_subnets_black}\n"
             output_wildcard = f"Wildcard-Maske:\t\t{self.deci_wildcard_maks_str}\t\t{self.binary_wildcards}\n"
             output_net_id = f"Netzwerkadresse:\t{self.deci_net_id_str}\t\t{self.binary_net_id}\n"
-            output_broadcast = f"Broadcast-Adresse:\t{self.deci_broadcast_str}\t\t{self.binary_broadcast_ip}\n" 
-            output = [output_head, output_ip, output_subnet, output_wildcard, output_net_id, output_broadcast]
+            output_broadcast = f"Broadcast-Adresse:\t{self.deci_broadcast_str}\t\t{self.binary_broadcast_ip}\n"
+            output_hosts = f"Hostanzahl:\t\t\t{self.hosts_str}\n" 
+            output = [output_head, output_ip, output_subnet, output_wildcard, output_net_id, output_broadcast, output_hosts]
             save_window = Save_Output_Window(self, output)
             save_window.grab_set()
         except Exception as e:
@@ -197,6 +209,9 @@ class IPv4Page(tk.Frame):
 
         self.binary_broadcast_ip = in_one_binary_string(broadcasts, cidir)
         self.binary_broadcast_output.config(text=f"{self.binary_broadcast_ip}")
+        
+        self.hosts_str =number_of_hosts(self.binary_wildcards).rjust(15)
+        self.hosts_output.config(text=self.hosts_str)
 
         binary_subnets = []
         for i in range(4):

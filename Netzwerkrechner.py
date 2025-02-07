@@ -21,10 +21,10 @@ class Main(tk.Tk):
         self.top_frame.pack(fill="x", side="top")
 
         ipv4_button = tk.Button(self.top_frame, text="IPv4 Rechner",
-                                command=lambda: self.show_frame(IPv4Page))
+                                command=self.show_frame_ipv4)
         ipv4_button.grid(row=0, column=0, padx=10, pady=10)
         ipv6_button = tk.Button(self.top_frame, text="IPv6 Rechner",
-                                command=lambda: self.show_frame(IPv6Page))
+                                command=self.show_frame_ipv6)
         ipv6_button.grid(row=0, column=1, padx=10, pady=10)
 
         info_button = tk.Button(self.top_frame, text="Infos",
@@ -38,15 +38,16 @@ class Main(tk.Tk):
         self.main_frame = tk.Frame(self.container)
         self.main_frame.pack(fill="both", expand=True, side="bottom")
 
-        self.frames = {}
-
-        for Page in (IPv4Page, IPv6Page):
-            frame = Page(parent=self.main_frame, controller=self)
-            self.frames[Page] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
-
         self.show_frame(IPv4Page)
 
+    def show_frame_ipv4(self):
+        self.show_frame(IPv4Page)
+    
+    def show_frame_ipv6(self):
+        self.show_frame(IPv6Page)
+    
+        
+    
     def show_frame(self, page):
         frame = self.frames[page]
         frame.tkraise()
