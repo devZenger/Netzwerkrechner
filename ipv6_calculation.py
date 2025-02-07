@@ -85,7 +85,7 @@ def add_zero_to_ipv6_input(input):
 
 
 class IPv6Page(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent):
         super().__init__(parent)
 
         default_setting = {'padx': (20, 5), 'pady': 5, 'sticky': "ew"}
@@ -98,10 +98,10 @@ class IPv6Page(tk.Frame):
         self.ipv6_input = tk.Entry(self)
         self.ipv6_input.grid(row=2, column=1)
 
-        cidir_label = tk.Label(self, text="CIDIR: ")
+        cidir_label = tk.Label(self, text="Präfix: ")
         cidir_label.grid(row=3, column=0)
-        self.cidir_input = tk.Entry(self)
-        self.cidir_input.grid(row=3, column=1)
+        self.prefix_input = tk.Entry(self)
+        self.prefix_input.grid(row=3, column=1)
 
         cal_ipv6 = tk.Button(self, text="berechnen", command=self.ipv6_cal)
         cal_ipv6.grid(row=3, column=2)
@@ -134,6 +134,11 @@ class IPv6Page(tk.Frame):
         broadcast_output_label.grid(**default_setting, row=9, column=0)
         self.broadcast_output = tk.Label(self, text="")
         self.broadcast_output.grid(row=9, column=1)
+        
+        hosts_output_label = tk.Label(self, text="Hostanzahl: ", anchor="w")
+        hosts_output_label.grid(**default_setting, row=10, column=0)
+        self.hosts_output = tk.Label(self, text="")
+        self.hosts_output.grid(row=10, column=1)
 
     # ipv6 calculation
     def ipv6_cal(self):
@@ -156,26 +161,27 @@ class IPv6Page(tk.Frame):
             self.error_output.config(text="Fehlerhafte Eingabe")
 
         try:
-            cidir = int(self.cidir_input.get())
+            prefix_bit = int(self.prefix_input.get())
         except Exception as e:
             self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
 
-        if cidir < 0 or cidir > 128:
+        if prefix_bit < 0 or prefix_bit > 128:
             self.error_output.config(text="Fehlerhafte Eingabe")
 
-        # präfix calculation
+        # prefix calculation
         in_process = True
         j = 0
         prefix = [0]*8
+        prefix_bit_save = prefix_bit
 
         while in_process is True:
 
-            if cidir == 0:
+            if prefix_bit == 0:
                 in_process is False
-            elif cidir >= 16:
+            elif prefix_bit >= 16:
                 prefix[j] = 65_535
-            elif 0 < cidir < 16:
-                wild = 16 - cidir
+            elif 0 < prefix_bit < 16:
+                wild = 16 - prefix_bit
                 dekaexi = 0
                 for w in range(wild):
                     dekaexi = dekaexi + 2**w
@@ -183,15 +189,24 @@ class IPv6Page(tk.Frame):
                 prefix[j] = dekaexi_re
                 break
 
-            cidir = cidir - 16
+            prefix_bit = prefix_bit - 16
             j += 1
+            
+        
+        prefix_bit = prefix_bit_save
 
         # net id calculation & broadcast ip
         net_ids = []
         for i in range(8):
             print(i)
             net_ids.append(ipv6_adresses[i] & prefix[i])
-
+        
+        # number of hosts
+        hosts_bits = 128 - prefix_bit
+        hosts = str(2**hosts_bits)
+        self.hosts_output.config(text=f"{hosts}")
+        
+        
         ipv6_hex_str = in_one_hex_str(ipv6_adresses)
         self.ipv6_output.config(text=f"{ipv6_hex_str}")
 
@@ -209,5 +224,8 @@ class IPv6Page(tk.Frame):
 
         net_id_short_str = in_short(net_ids)
         self.net_id_short_output.config(text=f"{net_id_short_str}")
+
+
+
 
         return self.error_output.config(text="Ergebnis:")

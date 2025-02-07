@@ -38,6 +38,13 @@ class Main(tk.Tk):
         self.main_frame = tk.Frame(self.container)
         self.main_frame.pack(fill="both", expand=True, side="bottom")
 
+        self.frames = {}
+
+        for Page in (IPv4Page, IPv6Page):
+            frame = Page(parent=self.main_frame)
+            self.frames[Page] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+
         self.show_frame(IPv4Page)
 
     def show_frame_ipv4(self):

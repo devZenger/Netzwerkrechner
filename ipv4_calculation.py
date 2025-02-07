@@ -37,7 +37,7 @@ def in_one_decimal_string(to_form):
 
 
 class IPv4Page(tk.Frame):
-    def __init__(self, parent, controller):
+    def __init__(self, parent):
         super().__init__(parent)
 
         label = tk.Label(self, text="IPv4:", font=(14))
