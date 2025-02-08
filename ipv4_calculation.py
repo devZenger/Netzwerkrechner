@@ -105,8 +105,14 @@ class IPv4Page(tk.Frame):
         self.hosts_output = tk.Label(self, text="")
         self.hosts_output.grid(row=10, column=1)
 
-        bt_save_ipv4_output = tk.Button(self, text="Ergebnis speichern", command=self.open_save_window)
-        bt_save_ipv4_output.grid(pady=10, row=11, column=2)
+        bt_frame = tk.Frame(self)
+        bt_frame.grid(row=11, column=2)
+
+        bt_save_ipv4_output = tk.Button(bt_frame, text="Ergebnis speichern", command=self.open_save_window)
+        bt_save_ipv4_output.pack(pady=0, padx=10, side=tk.LEFT)
+        
+        bt_clear_output = tk.Button(bt_frame, text="zurücksetzen", command=self.clear_output)
+        bt_clear_output.pack(pady=0, padx=10, side=tk.LEFT)
 
     # open save window
     def open_save_window(self):
@@ -134,19 +140,23 @@ class IPv4Page(tk.Frame):
             for i in range(4):
                 ipv4_adresses.append(int(ipv4_splits[i]))
         except Exception as e:
+            self.clear_output()
             return self.error_output.config(text=f"Fehler: {type(e).__name__}")
 
         for ipv4_adress in ipv4_adresses:
             if ipv4_adress < 0 or ipv4_adress > 255:
+                self.clear_output()
                 return self.error_output.config(text="Fehlerhafte IPv4 Adresse")
 
         # CIDIR input check
         try:
             cidir = int(self.cidir_input.get())
         except Exception as e:
+            self.clear_output()
             return self.error_output.config(text=f"Fehler: {type(e).__name__}")
 
         if cidir < 0 or cidir > 32:
+            self.clear_output()
             return self.error_output.config(text="Fehlerhafte CIDIR Eingabe")
 
         subnet_mask = [0]*4
@@ -239,3 +249,18 @@ class IPv4Page(tk.Frame):
         self.binary_subnet_mask_output.config(state=tk.DISABLED)
 
         return self.error_output.config(text="Ergebnis:")
+
+    def clear_output(self):
+        self.deci_ipv4_output.config(text=" ")
+        self.deci_subnet_mask_output.config(text=" ")
+        self.deci_wildcard_mask_output.config(text=" ")
+        self.deci_net_id_output.config(text=" ")
+        self.deci_broadcast_output.config(text=" ")
+        self.binary_ipv4_output.config(text=" ")
+        self.binary_subnet_mask_output.config(state=tk.NORMAL)
+        self.binary_subnet_mask_output.delete("1.0", tk.END)
+        self.binary_subnet_mask_output.config(state=tk.DISABLED)
+        self.binary_wildcard_mask_output.config(text=" ")
+        self.binary_net_id_output.config(text=" ")
+        self.binary_broadcast_output.config(text=" ")
+        self.hosts_output.config(text=" ")

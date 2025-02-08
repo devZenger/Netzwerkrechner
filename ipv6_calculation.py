@@ -52,17 +52,15 @@ def input_zero(input, zero):
             rev = i + 1 - len(input)
             input = input[:i] + zero + input[rev:]  
             break
-  
+        
     return input
 
 
 def add_zero_to_ipv6_input(input):
     if input[len(input)-1] == ":":
         input = input + "0"
-    print(input)
 
     count = input.count(":")
-    print(count)
     if count < 8:
         print("matchS")
         match count:
