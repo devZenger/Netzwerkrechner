@@ -1,4 +1,5 @@
 import tkinter as tk
+from save_output import Save_Output_Window
 
 
 def in_short(to_forms):
@@ -148,6 +149,32 @@ class IPv6Page(tk.Frame):
         last_host_output_label.grid(**default_setting, row=10, column=0)
         self.last_host_output = tk.Label(self, text="")
         self.last_host_output.grid(row=10, column=1)
+        
+        bt_frame = tk.Frame(self)
+        bt_frame.grid(row=11, column=2)
+
+        bt_save_ipv4_output = tk.Button(bt_frame, text="Ergebnis speichern", command=self.open_save_window)
+        bt_save_ipv4_output.pack(pady=0, padx=10, side=tk.LEFT)
+
+        #bt_clear_output = tk.Button(bt_frame, text="zurücksetzen", command=self.clear_output)
+        #bt_clear_output.pack(pady=0, padx=10, side=tk.LEFT)
+        
+    # open save window
+    def open_save_window(self):
+        try:
+            output_head = f"IPv6:\nBerechnung für {self.ipv6_hex_str}\n\n"
+            output_ip = f"Ipv6 Adresse:\t\t{self.ipv6_hex_str}\t\t{self.ipv6_short_str}\n"  
+            output_prefix = f"Präfix:\t\t\t   {self.prefix_hex_str}\t\t{self.prefix_short_str}\n"
+            output_net_id = f"Netzwerkadresse:\t{self.net_id_hex_str}\t\t{self.net_id_short_str}\n"
+            #output_net_id2 = f"Netzwerkadresse:\t{self.deci_net_id_str}\t\t{self.binary_net_id}\n"
+            output_hosts = f"Hostanzahl:\t\t\t{self.hosts_str}\n"
+            output_first_adress = f"Erste Hostadresse:\t{self.net_id_hex_str}\n"
+            output_last_adress = f"Letzte Hostadresse:\t{self.last_host_adress_hex_str}\n"
+            output = [output_head, output_ip, output_prefix, output_net_id, output_hosts, output_first_adress, output_last_adress]
+            save_window = Save_Output_Window(self, output)
+            save_window.grab_set()
+        except Exception as e:
+            self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
 
     # ipv6 calculation
     def ipv6_cal(self):
@@ -168,6 +195,7 @@ class IPv6Page(tk.Frame):
         if len(ipv6_adresses) != 8:
             self.error_output.config(text="Fehlerhafte Eingabe")
         try:
+            global prefix_bit
             prefix_bit = int(self.prefix_input.get())
         except Exception as e:
             self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
@@ -208,34 +236,33 @@ class IPv6Page(tk.Frame):
             last_adresses[i] = last_adresses[i] - prefix[i]
             last_adresses[i] = last_adresses[i] + net_ids[i]
 
-
         # number of hosts
         hosts_bits = 128 - prefix_bit
-        hosts = str(2**hosts_bits)
-        self.hosts_output.config(text=f"{hosts}")
+        hosts = 2**hosts_bits
+        self.hosts_str = f"{hosts:,.0f}".rjust(39)
+        self.hosts_output.config(text=f"{self.hosts_str}")
 
-        ipv6_hex_str = in_one_hex_str(ipv6_adresses)
-        self.ipv6_output.config(text=f"{ipv6_hex_str}")
+        self.ipv6_hex_str = in_one_hex_str(ipv6_adresses)
+        self.ipv6_output.config(text=f"{self.ipv6_hex_str}")
 
-        prefix_hex_str = in_one_hex_str(prefix)
-        self.prefix_output.config(text=f"{prefix_hex_str}")
+        self.prefix_hex_str = in_one_hex_str(prefix)
+        self.prefix_output.config(text=f"{self.prefix_hex_str}")
 
-        net_id_hex_str = in_one_hex_str(net_ids)
-        self.net_id_output.config(text=f"{net_id_hex_str}")
+        self.net_id_hex_str = in_one_hex_str(net_ids)
+        self.net_id_output.config(text=f"{self.net_id_hex_str}")
 
-        self.first_host_output.config(text=f"{net_id_hex_str}")
+        self.first_host_output.config(text=f"{self.net_id_hex_str}")
 
-        last_host_adress_hex_str = in_one_hex_str(last_adresses)
-        self.last_host_output.config(text=f"{last_host_adress_hex_str}")
+        self.last_host_adress_hex_str = in_one_hex_str(last_adresses)
+        self.last_host_output.config(text=f"{self.last_host_adress_hex_str}")
 
-        ipv6_short_str = in_short(ipv6_adresses)
-        self.ipv6_short_output.config(text=f"{ipv6_short_str}")
+        self.ipv6_short_str = in_short(ipv6_adresses)
+        self.ipv6_short_output.config(text=f"{self.ipv6_short_str}")
 
-        prefix_short_str = in_short(prefix)
-        self.prefix_short_output.config(text=f"{prefix_short_str}")
+        self.prefix_short_str = in_short(prefix)
+        self.prefix_short_output.config(text=f"{self.prefix_short_str}")
 
-        net_id_short_str = in_short(net_ids)
-        self.net_id_short_output.config(text=f"{net_id_short_str}")
-
+        self.net_id_short_str = in_short(net_ids)
+        self.net_id_short_output.config(text=f"{self.net_id_short_str}")
 
         return self.error_output.config(text="Ergebnis:")

@@ -1,0 +1,9 @@
+IPv6:
+Berechnung für 0023:0000:0000:0000:0000:0000:0000:0045
+
+Ipv6 Adresse:		0023:0000:0000:0000:0000:0000:0000:0045		23::45
+Präfix:			   ffff:ffff:ffe0:0000:0000:0000:0000:0000		FFFF:FFFF:FFE0::
+Netzwerkadresse:	0023:0000:0000:0000:0000:0000:0000:0000		23::
+Hostanzahl:			     38,685,626,227,668,133,590,597,632
+Erste Hostadresse:	0023:0000:0000:0000:0000:0000:0000:0000
+Letzte Hostadresse:	0023:0000:001f:ffff:ffff:ffff:ffff:ffff
