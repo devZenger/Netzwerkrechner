@@ -21,8 +21,8 @@ def in_short(to_forms):
         max_count = current_count
         max_index = current_index
 
-    strForm = ""  
-    print(f"max_index: {max_index} und max_count = {max_count}")  
+    strForm = ""
+    print(f"max_index: {max_index} und max_count = {max_count}")
     for i, form in enumerate(to_forms):
 
         if i == max_index:
@@ -34,7 +34,7 @@ def in_short(to_forms):
         else:
             strForm = f"{strForm}{form}:"
 
-    return strForm[:-1] 
+    return strForm[:-1]
 
 
 def in_one_hex_str(to_form):
@@ -49,18 +49,20 @@ def in_one_hex_str(to_form):
 def input_zero(input, zero):
     for i in range(len(input)):
         if input[i] == ":" and input[i+1] == ":":
-            rev = i + 1- len(input)
-            print(f"i ={i}  und rev = {rev}  und länge = {len(input)}")
-            print(input[:i])
-            input = input[:i] + zero + input[rev:]
+            rev = i + 1 - len(input)
+            input = input[:i] + zero + input[rev:]  
+            break
+  
     return input
 
 
 def add_zero_to_ipv6_input(input):
     if input[len(input)-1] == ":":
         input = input + "0"
+    print(input)
 
     count = input.count(":")
+    print(count)
     if count < 8:
         print("matchS")
         match count:
@@ -80,7 +82,9 @@ def add_zero_to_ipv6_input(input):
                 input = input_zero(input, ":0:0:0:0:0:0:0")
             case _:
                 input = "Error"
-
+    else:
+        print("else")
+        raise ValueError("too many ':'")
     return input
 
 
@@ -98,8 +102,8 @@ class IPv6Page(tk.Frame):
         self.ipv6_input = tk.Entry(self)
         self.ipv6_input.grid(row=2, column=1)
 
-        cidir_label = tk.Label(self, text="Präfix: ")
-        cidir_label.grid(row=3, column=0)
+        prefix_label = tk.Label(self, text="Präfix: ")
+        prefix_label.grid(row=3, column=0)
         self.prefix_input = tk.Entry(self)
         self.prefix_input.grid(row=3, column=1)
 
@@ -134,7 +138,7 @@ class IPv6Page(tk.Frame):
         broadcast_output_label.grid(**default_setting, row=9, column=0)
         self.broadcast_output = tk.Label(self, text="")
         self.broadcast_output.grid(row=9, column=1)
-        
+
         hosts_output_label = tk.Label(self, text="Hostanzahl: ", anchor="w")
         hosts_output_label.grid(**default_setting, row=10, column=0)
         self.hosts_output = tk.Label(self, text="")
@@ -146,7 +150,7 @@ class IPv6Page(tk.Frame):
         try:
             ipv6_input = add_zero_to_ipv6_input(ipv6_input)
         except Exception as e:
-            return self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
+            return self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
 
         ipv6_adresses = []
         try:
@@ -154,20 +158,19 @@ class IPv6Page(tk.Frame):
             for ipv6 in ipv6_input_splits:
                 ipv6_adresses.append(int(ipv6, 16))
         except Exception as e:
-            self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
+            self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
 
         if len(ipv6_adresses) != 8:
             print(len(ipv6_adresses))
             self.error_output.config(text="Fehlerhafte Eingabe")
-
         try:
             prefix_bit = int(self.prefix_input.get())
         except Exception as e:
-            self.error_output.config(text=f"Fehlerhafte Eingabe, {type(e).__name__}")
+            self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
 
         if prefix_bit < 0 or prefix_bit > 128:
-            self.error_output.config(text="Fehlerhafte Eingabe")
-
+            self.error_output.config(text="Fehlerhafte Präfix Eingabe")
+     
         # prefix calculation
         in_process = True
         j = 0
@@ -175,9 +178,10 @@ class IPv6Page(tk.Frame):
         prefix_bit_save = prefix_bit
 
         while in_process is True:
-
+            print("in process", end=" ")
+            print(prefix_bit)
             if prefix_bit == 0:
-                in_process is False
+                in_process = False
             elif prefix_bit >= 16:
                 prefix[j] = 65_535
             elif 0 < prefix_bit < 16:
@@ -191,8 +195,8 @@ class IPv6Page(tk.Frame):
 
             prefix_bit = prefix_bit - 16
             j += 1
-            
-        
+
+        print("net id")
         prefix_bit = prefix_bit_save
 
         # net id calculation & broadcast ip
@@ -200,13 +204,12 @@ class IPv6Page(tk.Frame):
         for i in range(8):
             print(i)
             net_ids.append(ipv6_adresses[i] & prefix[i])
-        
+
         # number of hosts
         hosts_bits = 128 - prefix_bit
         hosts = str(2**hosts_bits)
         self.hosts_output.config(text=f"{hosts}")
-        
-        
+
         ipv6_hex_str = in_one_hex_str(ipv6_adresses)
         self.ipv6_output.config(text=f"{ipv6_hex_str}")
 
@@ -224,8 +227,5 @@ class IPv6Page(tk.Frame):
 
         net_id_short_str = in_short(net_ids)
         self.net_id_short_output.config(text=f"{net_id_short_str}")
-
-
-
 
         return self.error_output.config(text="Ergebnis:")

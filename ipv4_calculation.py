@@ -3,9 +3,9 @@ from save_output import Save_Output_Window
 
 
 def number_of_hosts(wildmask):
-    
+
     numbers = wildmask.count("1")
-    return str(2**numbers -2)
+    return str(2**numbers - 2)
 
 
 def in_one_binary_string(to_form, cidir):
@@ -99,14 +99,14 @@ class IPv4Page(tk.Frame):
         self.deci_broadcast_output.grid(row=9, column=1)
         self.binary_broadcast_output = tk.Label(self, text="")
         self.binary_broadcast_output.grid(row=9, column=2)
-        
+
         hosts_output_label = tk.Label(self, text="Hostanzahl: ", anchor="w")
         hosts_output_label.grid(**default_setting, row=10, column=0)
         self.hosts_output = tk.Label(self, text="")
         self.hosts_output.grid(row=10, column=1)
 
         bt_save_ipv4_output = tk.Button(self, text="Ergebnis speichern", command=self.open_save_window)
-        bt_save_ipv4_output.grid(pady=10, row=11 , column=2)
+        bt_save_ipv4_output.grid(pady=10, row=11, column=2)
 
     # open save window
     def open_save_window(self):
@@ -209,8 +209,8 @@ class IPv4Page(tk.Frame):
 
         self.binary_broadcast_ip = in_one_binary_string(broadcasts, cidir)
         self.binary_broadcast_output.config(text=f"{self.binary_broadcast_ip}")
-        
-        self.hosts_str =number_of_hosts(self.binary_wildcards).rjust(15)
+
+        self.hosts_str = number_of_hosts(self.binary_wildcards).rjust(15)
         self.hosts_output.config(text=self.hosts_str)
 
         binary_subnets = []
@@ -237,6 +237,5 @@ class IPv4Page(tk.Frame):
                 self.binary_subnet_mask_output.insert("end", binary_subnets[i], "green")
 
         self.binary_subnet_mask_output.config(state=tk.DISABLED)
-
 
         return self.error_output.config(text="Ergebnis:")

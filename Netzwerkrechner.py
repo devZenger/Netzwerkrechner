@@ -49,12 +49,10 @@ class Main(tk.Tk):
 
     def show_frame_ipv4(self):
         self.show_frame(IPv4Page)
-    
+
     def show_frame_ipv6(self):
         self.show_frame(IPv6Page)
-    
-        
-    
+
     def show_frame(self, page):
         frame = self.frames[page]
         frame.tkraise()
