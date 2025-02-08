@@ -110,14 +110,14 @@ class IPv4Page(tk.Frame):
 
         bt_save_ipv4_output = tk.Button(bt_frame, text="Ergebnis speichern", command=self.open_save_window)
         bt_save_ipv4_output.pack(pady=0, padx=10, side=tk.LEFT)
-        
+
         bt_clear_output = tk.Button(bt_frame, text="zurücksetzen", command=self.clear_output)
         bt_clear_output.pack(pady=0, padx=10, side=tk.LEFT)
 
     # open save window
     def open_save_window(self):
         try:
-            output_head = f"IPv4:\nBerechnung für {self.deci_ipv4_str}\n\n"
+            output_head = f"IPv4:\nBerechnung für {self.deci_ipv4_str}\\{cidir}\n\n"
             output_ip = f"Ipv4 Adresse:\t\t{self.deci_ipv4_str}\t\t{self.binary_ipv4_ads}\n"  
             output_subnet = f"Subnetzmaske:\t\t{self.deci_subnets_str}\t\t{self.binary_subnets_black}\n"
             output_wildcard = f"Wildcard-Maske:\t\t{self.deci_wildcard_maks_str}\t\t{self.binary_wildcards}\n"
@@ -150,6 +150,7 @@ class IPv4Page(tk.Frame):
 
         # CIDIR input check
         try:
+            global cidir
             cidir = int(self.cidir_input.get())
         except Exception as e:
             self.clear_output()
