@@ -139,6 +139,8 @@ class IPv6Page(tk.Frame):
         hosts_output_label.grid(**default_setting, row=8, column=0)
         self.hosts_output = tk.Label(self, text="")
         self.hosts_output.grid(row=8, column=1)
+        self.hosts_short_output = tk.Label(self, text="")
+        self.hosts_short_output.grid(row=8, column=2)
         
         first_host_output_label = tk.Label(self, text="Erste Hostadresse:")
         first_host_output_label.grid(**default_setting, row=9, column=0)
@@ -156,8 +158,8 @@ class IPv6Page(tk.Frame):
         bt_save_ipv4_output = tk.Button(bt_frame, text="Ergebnis speichern", command=self.open_save_window)
         bt_save_ipv4_output.pack(pady=0, padx=10, side=tk.LEFT)
 
-        #bt_clear_output = tk.Button(bt_frame, text="zurücksetzen", command=self.clear_output)
-        #bt_clear_output.pack(pady=0, padx=10, side=tk.LEFT)
+        bt_clear_output = tk.Button(bt_frame, text="zurücksetzen", command=self.clear_output)
+        bt_clear_output.pack(pady=0, padx=10, side=tk.LEFT)
         
     # open save window
     def open_save_window(self):
@@ -182,6 +184,7 @@ class IPv6Page(tk.Frame):
         try:
             ipv6_input = add_zero_to_ipv6_input(ipv6_input)
         except Exception as e:
+            self.clear_output()
             return self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
 
         ipv6_adresses = []
@@ -190,18 +193,21 @@ class IPv6Page(tk.Frame):
             for ipv6 in ipv6_input_splits:
                 ipv6_adresses.append(int(ipv6, 16))
         except Exception as e:
-            self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
+            self.clear_output()
+            return self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
 
         if len(ipv6_adresses) != 8:
-            self.error_output.config(text="Fehlerhafte Eingabe")
+            self.clear_output()
+            return self.error_output.config(text="Fehlerhafte Eingabe")
         try:
-            global prefix_bit
             prefix_bit = int(self.prefix_input.get())
         except Exception as e:
-            self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
+            self.clear_output()
+            return self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
 
         if prefix_bit < 0 or prefix_bit > 128:
-            self.error_output.config(text="Fehlerhafte Präfix Eingabe")
+            self.clear_output()
+            return self.error_output.config(text="Fehlerhafte Präfix Eingabe")
 
         # prefix calculation
         in_process = True
@@ -241,6 +247,8 @@ class IPv6Page(tk.Frame):
         hosts = 2**hosts_bits
         self.hosts_str = f"{hosts:,.0f}".rjust(39)
         self.hosts_output.config(text=f"{self.hosts_str}")
+        self.hosts_short = "{:.2e}".format(hosts)
+        self.hosts_short_output.config(text=f"{self.hosts_short}")
 
         self.ipv6_hex_str = in_one_hex_str(ipv6_adresses)
         self.ipv6_output.config(text=f"{self.ipv6_hex_str}")
@@ -266,3 +274,15 @@ class IPv6Page(tk.Frame):
         self.net_id_short_output.config(text=f"{self.net_id_short_str}")
 
         return self.error_output.config(text="Ergebnis:")
+
+    def clear_output(self):
+        self.ipv6_output.config(text=" ")
+        self.prefix_output.config(text=" ")
+        self.net_id_output.config(text=" ")
+        self.first_host_output.config(text=" ")
+        self.last_host_output.config(text=" ")
+        self.ipv6_short_output.config(text=" ")
+        self.prefix_short_output.config(text=" ")
+        self.net_id_short_output.config(text=" ")
+        self.hosts_short_output.config(text=" ")
+        self.hosts_output.config(text=" ")
