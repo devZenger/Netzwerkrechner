@@ -22,19 +22,21 @@ def in_short(to_forms):
         max_index = current_index
 
     strForm = ""
-    print(f"max_index: {max_index} und max_count = {max_count}")
+
     for i, form in enumerate(to_forms):
 
         if i == max_index:
-            print
             strForm = f"{strForm}:"
 
         elif max_index < i < (max_index + max_count):
             continue
         else:
-            strForm = f"{strForm}{form}:"
+            strForm = f"{strForm}{form:X}:"
 
-    return strForm[:-1]
+    if strForm[-2] != ":":
+        strForm = strForm[:-1]
+
+    return strForm
 
 
 def in_one_hex_str(to_form):
@@ -50,9 +52,9 @@ def input_zero(input, zero):
     for i in range(len(input)):
         if input[i] == ":" and input[i+1] == ":":
             rev = i + 1 - len(input)
-            input = input[:i] + zero + input[rev:]  
+            input = input[:i] + zero + input[rev:]
             break
-        
+
     return input
 
 
@@ -132,15 +134,20 @@ class IPv6Page(tk.Frame):
         self.net_id_short_output = tk.Label(self, text="")
         self.net_id_short_output.grid(row=7, column=2)
 
-        broadcast_output_label = tk.Label(self, text="Broadcast-Adresse:", anchor="w")
-        broadcast_output_label.grid(**default_setting, row=9, column=0)
-        self.broadcast_output = tk.Label(self, text="")
-        self.broadcast_output.grid(row=9, column=1)
-
         hosts_output_label = tk.Label(self, text="Hostanzahl: ", anchor="w")
-        hosts_output_label.grid(**default_setting, row=10, column=0)
+        hosts_output_label.grid(**default_setting, row=8, column=0)
         self.hosts_output = tk.Label(self, text="")
-        self.hosts_output.grid(row=10, column=1)
+        self.hosts_output.grid(row=8, column=1)
+        
+        first_host_output_label = tk.Label(self, text="Erste Hostadresse:")
+        first_host_output_label.grid(**default_setting, row=9, column=0)
+        self.first_host_output = tk.Label(self, text="")
+        self.first_host_output.grid(row=9, column=1)
+        
+        last_host_output_label = tk.Label(self, text="Letzte Hostadresse:")
+        last_host_output_label.grid(**default_setting, row=10, column=0)
+        self.last_host_output = tk.Label(self, text="")
+        self.last_host_output.grid(row=10, column=1)
 
     # ipv6 calculation
     def ipv6_cal(self):
@@ -159,7 +166,6 @@ class IPv6Page(tk.Frame):
             self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
 
         if len(ipv6_adresses) != 8:
-            print(len(ipv6_adresses))
             self.error_output.config(text="Fehlerhafte Eingabe")
         try:
             prefix_bit = int(self.prefix_input.get())
@@ -168,7 +174,7 @@ class IPv6Page(tk.Frame):
 
         if prefix_bit < 0 or prefix_bit > 128:
             self.error_output.config(text="Fehlerhafte Präfix Eingabe")
-     
+
         # prefix calculation
         in_process = True
         j = 0
@@ -176,8 +182,6 @@ class IPv6Page(tk.Frame):
         prefix_bit_save = prefix_bit
 
         while in_process is True:
-            print("in process", end=" ")
-            print(prefix_bit)
             if prefix_bit == 0:
                 in_process = False
             elif prefix_bit >= 16:
@@ -194,14 +198,16 @@ class IPv6Page(tk.Frame):
             prefix_bit = prefix_bit - 16
             j += 1
 
-        print("net id")
         prefix_bit = prefix_bit_save
 
-        # net id calculation & broadcast ip
+        # net id calculation and last adress
         net_ids = []
+        last_adresses = [65_535] * 8
         for i in range(8):
-            print(i)
             net_ids.append(ipv6_adresses[i] & prefix[i])
+            last_adresses[i] = last_adresses[i] - prefix[i]
+            last_adresses[i] = last_adresses[i] + net_ids[i]
+
 
         # number of hosts
         hosts_bits = 128 - prefix_bit
@@ -217,6 +223,11 @@ class IPv6Page(tk.Frame):
         net_id_hex_str = in_one_hex_str(net_ids)
         self.net_id_output.config(text=f"{net_id_hex_str}")
 
+        self.first_host_output.config(text=f"{net_id_hex_str}")
+
+        last_host_adress_hex_str = in_one_hex_str(last_adresses)
+        self.last_host_output.config(text=f"{last_host_adress_hex_str}")
+
         ipv6_short_str = in_short(ipv6_adresses)
         self.ipv6_short_output.config(text=f"{ipv6_short_str}")
 
@@ -225,5 +236,6 @@ class IPv6Page(tk.Frame):
 
         net_id_short_str = in_short(net_ids)
         self.net_id_short_output.config(text=f"{net_id_short_str}")
+
 
         return self.error_output.config(text="Ergebnis:")
