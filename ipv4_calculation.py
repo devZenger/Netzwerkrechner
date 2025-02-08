@@ -43,6 +43,8 @@ class IPv4Page(tk.Frame):
         label = tk.Label(self, text="IPv4:", font=(14))
         label.grid(row=0, column=0, pady=10)
 
+        self.grid_columnconfigure(0, minsize=240)
+
         ipv4_label = tk.Label(self, text="IP Adresse: ")
         ipv4_label.grid(row=2, column=0)
         self.ipv4_input = tk.Entry(self)

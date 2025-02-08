@@ -9,7 +9,7 @@ class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Netzwerkrechner")
-        self.geometry("900x500")
+        self.geometry("1100x500")
 
         default_font = font.Font(family="Consolas", size=14)
         self.option_add("*Font", default_font) 
