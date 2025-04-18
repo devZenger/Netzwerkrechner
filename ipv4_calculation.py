@@ -65,14 +65,14 @@ class IPv4Page(tk.Frame):
         default_setting = {'padx': (20, 5), 'pady': 5, 'sticky': "ew"}
 
         self.error_output = tk.Label(self, text="")
-        self.error_output.grid(row=4, column=1)
+        self.error_output.grid(row=4, column=1, sticky="w")
 
         ipv4_output_label = tk.Label(self, text="IPv4 Adresse: ", anchor="w")
         ipv4_output_label.grid(**default_setting, row=5, column=0)
         self.deci_ipv4_output = tk.Label(self, text="")
         self.deci_ipv4_output.grid(row=5, column=1)
         self.binary_ipv4_output = tk.Label(self, text="")
-        self.binary_ipv4_output.grid(row=5, column=2, padx=(20, 0))
+        self.binary_ipv4_output.grid(row=5, column=2, padx=(20, 0), sticky="e")
 
         subnet_mask_output_label = tk.Label(self, text="Subnetzmaske: ", anchor="w")
         subnet_mask_output_label.grid(**default_setting, row=6, column=0)
@@ -80,7 +80,7 @@ class IPv4Page(tk.Frame):
         self.deci_subnet_mask_output.grid(row=6, column=1)
         self.binary_subnet_mask_output = tk.Text(self, height=1, width=36,
                                                  relief=tk.FLAT, bg=self['bg'], state=tk.DISABLED)
-        self.binary_subnet_mask_output.grid(row=6, column=2, padx=(20, 0))
+        self.binary_subnet_mask_output.grid(row=6, column=2, padx=(20, 0), sticky="e")
 
         self.binary_subnet_mask_output.tag_configure("red", foreground="red")
         self.binary_subnet_mask_output.tag_configure("green", foreground="green")
@@ -90,21 +90,21 @@ class IPv4Page(tk.Frame):
         self.deci_wildcard_mask_output = tk.Label(self, text="")
         self.deci_wildcard_mask_output.grid(row=7, column=1)
         self.binary_wildcard_mask_output = tk.Label(self, text="")
-        self.binary_wildcard_mask_output.grid(row=7, column=2, padx=(20, 0))
+        self.binary_wildcard_mask_output.grid(row=7, column=2, padx=(20, 0), sticky="e")
 
         net_id_output_label = tk.Label(self, text="Netzwerkadresse: ", anchor="w")
         net_id_output_label.grid(**default_setting, row=8, column=0)
         self.deci_net_id_output = tk.Label(self, text="")
         self.deci_net_id_output.grid(row=8, column=1)
         self.binary_net_id_output = tk.Label(self, text="")
-        self.binary_net_id_output.grid(row=8, column=2, padx=(20, 0))
+        self.binary_net_id_output.grid(row=8, column=2, padx=(20, 0), sticky="e")
 
         broadcast_output_label = tk.Label(self, text="Broadcast-Adresse:", anchor="w")
         broadcast_output_label.grid(**default_setting, row=9, column=0)
         self.deci_broadcast_output = tk.Label(self, text="")
         self.deci_broadcast_output.grid(row=9, column=1)
         self.binary_broadcast_output = tk.Label(self, text="")
-        self.binary_broadcast_output.grid(row=9, column=2, padx=(20, 0))
+        self.binary_broadcast_output.grid(row=9, column=2, padx=(20, 0), sticky="e")
 
         hosts_output_label = tk.Label(self, text="Hostanzahl: ", anchor="w")
         hosts_output_label.grid(**default_setting, row=10, column=0)
@@ -138,11 +138,15 @@ class IPv4Page(tk.Frame):
 
     # calculation
     def ipv4_cal(self):
+        error_message = "Fehlerhafte IPv4 Adresse"
         # IPv4 input check
         try:
             ipv4_input = self.ipv4_input.get()
             ipv4_splits = ipv4_input.split(".")
             ipv4_adresses = []
+            if len(ipv4_splits) != 4:
+                self.clear_output()
+                return self.error_output.config(text=f"{error_message}")
             for i in range(4):
                 ipv4_adresses.append(int(ipv4_splits[i]))
         except Exception as e:
@@ -152,7 +156,7 @@ class IPv4Page(tk.Frame):
         for ipv4_adress in ipv4_adresses:
             if ipv4_adress < 0 or ipv4_adress > 255:
                 self.clear_output()
-                return self.error_output.config(text="Fehlerhafte IPv4 Adresse")
+                return self.error_output.config(text=f"{error_message}")
 
         # CIDIR input check
         try:
