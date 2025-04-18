@@ -149,9 +149,13 @@ class IPv4Page(tk.Frame):
                 return self.error_output.config(text=f"{error_message}")
             for i in range(4):
                 ipv4_adresses.append(int(ipv4_splits[i]))
+        except ValueError:
+            self.clear_output()
+            return self.error_output.config(text=error_message)
         except Exception as e:
             self.clear_output()
             return self.error_output.config(text=f"Fehler: {type(e).__name__}")
+
 
         for ipv4_adress in ipv4_adresses:
             if ipv4_adress < 0 or ipv4_adress > 255:
