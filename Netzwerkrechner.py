@@ -9,7 +9,7 @@ class Main(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Netzwerkrechner")
-        self.geometry("1100x500")
+        self.geometry("870x500")
 
         default_font = font.Font(family="Consolas", size=14)
         self.option_add("*Font", default_font) 
@@ -48,9 +48,11 @@ class Main(tk.Tk):
         self.show_frame(IPv4Page)
 
     def show_frame_ipv4(self):
+        self.change_size("870")
         self.show_frame(IPv4Page)
 
     def show_frame_ipv6(self):
+        self.change_size("1200")
         self.show_frame(IPv6Page)
 
     def show_frame(self, page):
@@ -60,6 +62,10 @@ class Main(tk.Tk):
     def show_info_window(self):
         info_window = Info_Window(self)
         info_window.grab_set()
+    
+    def change_size(self, width):
+        self.geometry(f"{width}x500")
+        
 
     def close_window(self):
         self.destroy()
