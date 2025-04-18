@@ -3,9 +3,13 @@ from save_output import Save_Output_Window
 
 
 def number_of_hosts(wildmask):
-
     numbers = wildmask.count("1")
-    return str(2**numbers - 2)
+    hosts = 2**numbers - 2
+    if hosts == -1:
+        hosts = 1
+    elif hosts == 0:
+        hosts = 2
+    return str(hosts)
 
 
 def in_one_binary_string(to_form, cidir):
@@ -68,7 +72,7 @@ class IPv4Page(tk.Frame):
         self.deci_ipv4_output = tk.Label(self, text="")
         self.deci_ipv4_output.grid(row=5, column=1)
         self.binary_ipv4_output = tk.Label(self, text="")
-        self.binary_ipv4_output.grid(row=5, column=2)
+        self.binary_ipv4_output.grid(row=5, column=2, padx=(20, 0))
 
         subnet_mask_output_label = tk.Label(self, text="Subnetzmaske: ", anchor="w")
         subnet_mask_output_label.grid(**default_setting, row=6, column=0)
@@ -76,7 +80,7 @@ class IPv4Page(tk.Frame):
         self.deci_subnet_mask_output.grid(row=6, column=1)
         self.binary_subnet_mask_output = tk.Text(self, height=1, width=36,
                                                  relief=tk.FLAT, bg=self['bg'], state=tk.DISABLED)
-        self.binary_subnet_mask_output.grid(row=6, column=2)
+        self.binary_subnet_mask_output.grid(row=6, column=2, padx=(20, 0))
 
         self.binary_subnet_mask_output.tag_configure("red", foreground="red")
         self.binary_subnet_mask_output.tag_configure("green", foreground="green")
@@ -86,21 +90,21 @@ class IPv4Page(tk.Frame):
         self.deci_wildcard_mask_output = tk.Label(self, text="")
         self.deci_wildcard_mask_output.grid(row=7, column=1)
         self.binary_wildcard_mask_output = tk.Label(self, text="")
-        self.binary_wildcard_mask_output.grid(row=7, column=2)
+        self.binary_wildcard_mask_output.grid(row=7, column=2, padx=(20, 0))
 
         net_id_output_label = tk.Label(self, text="Netzwerkadresse: ", anchor="w")
         net_id_output_label.grid(**default_setting, row=8, column=0)
         self.deci_net_id_output = tk.Label(self, text="")
         self.deci_net_id_output.grid(row=8, column=1)
         self.binary_net_id_output = tk.Label(self, text="")
-        self.binary_net_id_output.grid(row=8, column=2)
+        self.binary_net_id_output.grid(row=8, column=2, padx=(20, 0))
 
         broadcast_output_label = tk.Label(self, text="Broadcast-Adresse:", anchor="w")
         broadcast_output_label.grid(**default_setting, row=9, column=0)
         self.deci_broadcast_output = tk.Label(self, text="")
         self.deci_broadcast_output.grid(row=9, column=1)
         self.binary_broadcast_output = tk.Label(self, text="")
-        self.binary_broadcast_output.grid(row=9, column=2)
+        self.binary_broadcast_output.grid(row=9, column=2, padx=(20, 0))
 
         hosts_output_label = tk.Label(self, text="Hostanzahl: ", anchor="w")
         hosts_output_label.grid(**default_setting, row=10, column=0)
@@ -232,12 +236,18 @@ class IPv4Page(tk.Frame):
 
         self.binary_subnet_mask_output.config(state=tk.NORMAL)
         self.binary_subnet_mask_output.delete('1.0', tk.END)
+
+        if cidir == 8 or cidir == 16 or cidir == 24 or cidir == 32:
+            self.binary_subnet_mask_output.insert("end", " ")
+
         for i in range(len(binary_subnets)):
             count = binary_subnets[i].count("1")
             if count == 8:
                 self.binary_subnet_mask_output.insert("end", binary_subnets[i],
                                                       "red")
-                self.binary_subnet_mask_output.insert("end", ".", "black")
+                if i < 3:
+                    self.binary_subnet_mask_output.insert("end", ".", "black")
+
             if 0 < count < 8:
                 self.binary_subnet_mask_output.insert("end", binary_subnets[i][:count], "red")
                 self.binary_subnet_mask_output.insert("end", " ", "black")
