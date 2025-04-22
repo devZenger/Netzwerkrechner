@@ -31,7 +31,8 @@ Umsetzung der IP Berechnung als Algorithmus in einen Programm. Die erste Idee da
   - IPv6 als Hexzahlen in Lang- und Kurform
 - Optionale Speicherung der Ergebnisse als Textdatei
 ### UML Sequenzdiagramm
-```Mermaid
+
+```mermaid
    sequenceDiagram
     participant User as Benutzer
     participant Main as Main
