@@ -59,7 +59,7 @@ class IPv4Page(tk.Frame):
         self.cidir_input = tk.Entry(self)
         self.cidir_input.grid(row=3, column=1, sticky="w")
 
-        cal_ipv4 = tk.Button(self, text="berechnen", command=self.ipv4_cal)
+        cal_ipv4 = tk.Button(self, text="Berechnen", command=self.ipv4_cal)
         cal_ipv4.grid(row=3, column=2)
 
         default_setting = {'padx': (20, 5), 'pady': 5, 'sticky': "ew"}
@@ -117,7 +117,7 @@ class IPv4Page(tk.Frame):
         bt_save_ipv4_output = tk.Button(bt_frame, text="Ergebnis speichern", command=self.open_save_window)
         bt_save_ipv4_output.pack(pady=0, padx=10, side=tk.LEFT)
 
-        bt_clear_output = tk.Button(bt_frame, text="zurücksetzen", command=self.clear_output)
+        bt_clear_output = tk.Button(bt_frame, text="Zurücksetzen", command=self.clear_output)
         bt_clear_output.pack(pady=0, padx=10, side=tk.LEFT)
 
     # open save window

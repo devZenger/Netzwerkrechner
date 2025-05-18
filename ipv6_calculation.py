@@ -107,7 +107,7 @@ class IPv6Page(tk.Frame):
         self.prefix_input = tk.Entry(self, width=3)
         self.prefix_input.grid(row=3, column=1,  sticky="e")
 
-        cal_ipv6 = tk.Button(self, text="berechnen", command=self.ipv6_cal)
+        cal_ipv6 = tk.Button(self, text="Berechnen", command=self.ipv6_cal)
         cal_ipv6.grid(row=3, column=2)
 
         self.error_output = tk.Label(self, text="")
@@ -154,7 +154,7 @@ class IPv6Page(tk.Frame):
         bt_save_ipv4_output = tk.Button(bt_frame, text="Ergebnis speichern", command=self.open_save_window)
         bt_save_ipv4_output.pack(pady=0, padx=10, side=tk.LEFT)
 
-        bt_clear_output = tk.Button(bt_frame, text="zurücksetzen", command=self.clear_output)
+        bt_clear_output = tk.Button(bt_frame, text="Zurücksetzen", command=self.clear_output)
         bt_clear_output.pack(pady=0, padx=10, side=tk.LEFT)
 
     # open save window

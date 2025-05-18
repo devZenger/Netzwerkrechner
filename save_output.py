@@ -1,5 +1,4 @@
 import tkinter as tk
-import sys
 
 
 class Save_Output_Window(tk.Toplevel):
@@ -17,11 +16,11 @@ class Save_Output_Window(tk.Toplevel):
         bt_frame = tk.Frame(self)
         bt_frame.pack(expand=True, pady=(0, 10))
 
-        bt_save = tk.Button(bt_frame, text="speichern",
+        bt_save = tk.Button(bt_frame, text="Speichern",
                             command=self.save_output)
         bt_save.pack(pady=0, padx=10, side=tk.LEFT)
 
-        bt_close = tk.Button(bt_frame, text="schließen",
+        bt_close = tk.Button(bt_frame, text="Schließen",
                              command=self.close_window)
         bt_close.pack(pady=0, padx=10, side=tk.LEFT)
 
