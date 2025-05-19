@@ -62,10 +62,9 @@ class Main(tk.Tk):
     def show_info_window(self):
         info_window = Info_Window(self)
         info_window.grab_set()
-    
+
     def change_size(self, width):
         self.geometry(f"{width}x500")
-        
 
     def close_window(self):
         self.destroy()

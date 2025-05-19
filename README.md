@@ -122,6 +122,28 @@ Neben den eigenen Algorithmen für die Berechnung ist eine weitere Besonderheit 
 <img src="images/fehler_ipv4.png" alt="IPv6-Fehlermeldung" title="IPv6-Fehlermeldung" style="width:70%; height:auto;"></div>
 
 
+## Installation
+Es gibt zwei Möglichkeiten das Programm zu nutzen:
+### 1. Ohne Installation als .exe Datei
+- [Netzwerkrechner.exe herunterladen](https://github.com/devZenger/Netzwerkrechner/tree/main/release)
+- Netzwerkrechner.exe ausführen
+
+
+### 2. Mit Pyhton (Quellcode)
+Voraussetzung: Python 3.10 oder neuer muss installiert sein.
+#### 1. Repository klonen
+ ```bash
+git clone https://github.com/devZenger/Netzwerkrechner.git
+```
+#### 2. In das Verzeichnis wechseln:
+ ```bash
+cd Netzwerkrechner
+```
+#### 3. Starten mit:
+ ```bash
+python Netzwerkrechner.py
+```
+
 ## Lizenz
 Dieses Projekt wurde ausschließlich zu **Lern- und Demonstrationszwecken** entwickelt.  
 Die Nutzung des Quellcodes ist für den privaten, nicht-kommerziellen Gebrauch gestattet   
