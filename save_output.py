@@ -30,10 +30,11 @@ class Save_Output_Window(tk.Toplevel):
     def save_output(self):
         try:
             file_name = self.file_name_input.get()
-            d = open(f"{file_name}", "w")
+            file_name = f"{file_name}.txt"
+            d = open(f"{file_name}", "a")
 
             for save in self.to_save:
-                d.write(f"{save}")
+                d.write(f"\n{save}")
 
             d.close()
             self.message.config(text="gespeichert")
