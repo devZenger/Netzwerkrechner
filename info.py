@@ -16,7 +16,10 @@ class Info_Window(tk.Toplevel):
         label = tk.Label(self, text="GitHub: https://github.com/devZenger/Netzwerkrechner")
         label.pack(pady=10)
 
-        bt_close = tk.Button(self, text="schließen", command=self.close_window)
+        label = tk.Label(self, text="Version 1.0.0 - Mai 2025")
+        label.pack(pady=10)
+
+        bt_close = tk.Button(self, text="Schließen", command=self.close_window)
         bt_close.pack(pady=20)
 
     def close_window(self):
