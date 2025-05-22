@@ -19,26 +19,32 @@ Die Ergebnisse können optional in einer Textdatei gespeichert werden. Die Anwen
 - [UML-Sequenzdiagramm](#uml-sequenzdiagramm)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
+- [Projektverzeichnis](#projektverzeichnis)
 - [Lizenz](#lizenz)
 
 ## Projektvorstellung
 
 Die Idee zu diesem Projekt entstand während des Lernfelds 4, zunächst mit einer einfachen Umsetzung in C#. In Lernfeld 5 wurde es im Rahmen einer Einführung in Python weiterentwickelt.  
-Ziel war es, ein funktionales und lehrreiches Projekt umzusetzen, das grundlegende Netzwerkberechnungen durchführt – **ohne** den Einsatz **externer Bibliotheken**. Stattdessen wurden **alle Berechnungen durch eigene Algorithmen** realisiert. Dabei konnten Klassen, Funktionen und GUI-Elemente in Python vertieft werden. Gleichzeitig wurde das Verständnis für die Berechnung von Netzwerkadressen gefestigt - mit einem praktischen Tool als Ergebnis.   
+Ziel war es, ein funktionales und lehrreiches Projekt umzusetzen, das grundlegende Netzwerkberechnungen durchführt – **ohne** den Einsatz **externer Bibliotheken**. Stattdessen wurden **alle Berechnungen durch eigene Algorithmen** realisiert. Dabei konnten Kenntnisse in Klassen, Funktionen und GUI-Elementen in Python vertieft werden. Gleichzeitig wurde das Verständnis für die Berechnung von Netzwerkadressen gefestigt – mit einem praktischen Tool als Ergebnis.   
 Das Programm besteht aus:
 - **einer Hauptklasse zur Steuerung der Anwendung**
 - **je einer Klasse für die Berechnung und Anzeige der IP-Adressen**
 - **einer Klasse zur Speicherung der Ergebnisse als Textdatei**
 - **einer Klasse für Hintergrundinformationen**
 
-Die grafische Oberfläche wurde mit **Tkinter** entwickelt. Eine **integrierte Fehlerbehandlung** sorgt dafür, dass ungültige Eingaben abgefangen und **benutzerfreundliche Rückmeldungen** gegeben werden.  
+Die grafische Oberfläche wurde mit **Tkinter** entwickelt. Eine **integrierte Fehlerbehandlung** sorgt dafür, dass ungültige Eingaben abgefangen und **benutzerfreundliche Rückmeldungen** zurückgegeben werden.  
 Neben den eigenen Algorithmen für die Berechnung ist eine weitere Besonderheit des Programms die Ausgabe der Ergebnisse: Bei IPv4 zusätzlich in **Binärdarstellung**, bei IPv6 in **Kurz- und Langform**.
+
+Für eine einheitliche und gut lesbare Codebasis kam **Flake8** zur Stilprüfung zum Einsatz. Anstelle der üblichen 80 Zeichen pro Zeile wurde die maximale Zeilenlänge projektweit auf 120 Zeichen festgelegt.  
+Mithilfe von **Pyinstaller** entstand eine ausführbare `.exe` Datei. Dadurch lässt sich die Anwendung auch ohne installierte Python-Umgebung direkt starten. Die Datei befindet sich im Ordner `release`.
 
 
 ## Verwendete Technologien
 - **Python 3.13.1**
 - **Tkinter** – GUI-Toolkit für die Benutzeroberfläche
-- **Mermaid** – zur Erstellung des UML-Sequenzdiagramm
+- **Pyinstaller** – erzeugt eine `.exe`-Datei für Windows
+- **Flake8** – Tool zu Stilprüfung (PEP8) 
+- **Mermaid** – zur Erstellung des UML-Sequenzdiagramms
 
 ## Funktionen
 - Intuitive grafische Benutzeroberfläche
@@ -121,6 +127,15 @@ Neben den eigenen Algorithmen für die Berechnung ist eine weitere Besonderheit 
 <div style="text-align: center;">
 <img src="images/fehler_ipv4.png" alt="IPv6-Fehlermeldung" title="IPv6-Fehlermeldung" style="width:70%; height:auto;"></div>
 
+### Speicherfenster für Berechnung:
+<div style="text-align: center;">
+<img src="images/save_window.png" alt="Speicherfenster" title="Speicherfenster" style="width:30%; height:auto;"></div>
+
+### Beispiel einer gespeicherten Bereichnung (.txt-Datei):
+<div style="text-align: center;">
+<img src="images/beispiel_txt.png" alt="Beispiel .txt-Datei" title="Beispiel .txt-Datei" style="width:80%; height:auto;"></div>
+<br><br>
+
 
 ## Installation
 Es gibt zwei Möglichkeiten das Programm zu nutzen:
@@ -144,10 +159,21 @@ cd Netzwerkrechner
 python Netzwerkrechner.py
 ```
 
+## Projektverzeichnis
+Netzwerkrechner\
+├── images/
+│    └── Dcreenshoots für README.md
+├── release/
+│    └── Netzwerkrechner.exe
+├── Beispiel.txt
+├── information.py
+├── ipv4_calculation.py
+├── ipv6_calculation.py
+├── netzwerkrechner.py
+├── README.md
+└── save_output.py
+
 ## Lizenz
-Dieses Projekt wurde ausschließlich zu **Lern- und Demonstrationszwecken** entwickelt.  
-Die Nutzung des Quellcodes ist für den privaten, nicht-kommerziellen Gebrauch gestattet   
-
-Eine Weitergabe, Veränderung oder kommerzielle Nutzung ist nur mit ausdrücklicher Genehmigung erlaubt.  
-
-Bei Fragen oder Feedback freue ich mich über eine Nachricht.
+Dieses Projekt steht unter der **MIT-Lizenz** und darf gerne weiterverwendet oder angepasst werden – natürlich unter Einhaltung der Lizenzbedingungen.  
+Es wurde mit viel Lernfreude und Neugier zu Übungs- und Demonstrationszwecken entwickelt.  
+Wenn du Feedback, Fragen oder Ideen hast, freue ich mich über eine Nachricht.
