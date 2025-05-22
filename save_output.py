@@ -31,16 +31,17 @@ class Save_Output_Window(tk.Toplevel):
         try:
             file_name = self.file_name_input.get()
             file_name = f"{file_name}.txt"
-            d = open(f"{file_name}", "a")
+            d = open(f"{file_name}", "a", encoding="utf-8")
 
             for save in self.to_save:
                 d.write(f"\n{save}")
 
-            d.close()
             self.message.config(text="gespeichert")
 
         except Exception as e:
             self.message.config(text=f"Fehler: {e}")
+        finally:
+            d.close()
 
     def close_window(self):
         self.destroy()
