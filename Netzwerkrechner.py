@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.font as font
 from ipv4_calculation import IPv4Page
 from ipv6_calculation import IPv6Page
-from info import Info_Window
+from information import Info_Window
 
 
 class Main(tk.Tk):
@@ -12,7 +12,7 @@ class Main(tk.Tk):
         self.geometry("870x500")
 
         default_font = font.Font(family="Consolas", size=14)
-        self.option_add("*Font", default_font) 
+        self.option_add("*Font", default_font)
 
         self.container = tk.Frame(self)
         self.container.pack(fill="both", expand=True)
@@ -20,19 +20,15 @@ class Main(tk.Tk):
         self.top_frame = tk.Frame(self.container, bg="lightgray")
         self.top_frame.pack(fill="x", side="top")
 
-        ipv4_button = tk.Button(self.top_frame, text="IPv4 Rechner",
-                                command=self.show_frame_ipv4)
+        ipv4_button = tk.Button(self.top_frame, text="IPv4 Rechner", command=self.show_frame_ipv4)
         ipv4_button.grid(row=0, column=0, padx=10, pady=10)
-        ipv6_button = tk.Button(self.top_frame, text="IPv6 Rechner",
-                                command=self.show_frame_ipv6)
+        ipv6_button = tk.Button(self.top_frame, text="IPv6 Rechner", command=self.show_frame_ipv6)
         ipv6_button.grid(row=0, column=1, padx=10, pady=10)
 
-        info_button = tk.Button(self.top_frame, text="Infos",
-                                command=self.show_info_window)
+        info_button = tk.Button(self.top_frame, text="Infos", command=self.show_info_window)
         info_button.grid(row=0, column=2, padx=10, pady=10)
 
-        close_button = tk.Button(self.top_frame, text="Schließen",
-                                 command=self.close_window)
+        close_button = tk.Button(self.top_frame, text="Schließen", command=self.close_window)
         close_button.grid(row=0, column=3, padx=10, pady=10)
 
         self.main_frame = tk.Frame(self.container)
