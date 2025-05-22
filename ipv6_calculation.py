@@ -160,12 +160,18 @@ class IPv6Page(tk.Frame):
     # open save window
     def open_save_window(self):
         try:
-            output_head = f"IPv6:\nBerechnung für {self.ipv6_hex_str}\n\n"
-            output_ip = f"Ipv6 Adresse:\t\t{self.ipv6_hex_str}\t\t{self.ipv6_short_str}\n"  
-            output_prefix = f"Präfix:\t\t\t   {self.prefix_hex_str}\t\t{self.prefix_short_str}\n"
-            output_net_id = f"Netzwerkadresse:\t{self.net_id_hex_str}\t\t{self.net_id_short_str}\n"
-            output_hosts = f"Hostanzahl:\t\t\t{self.hosts_str}\n"
-            output_last_adress = f"Letzte Hostadresse:\t{self.last_host_adress_hex_str}\n"
+            output_head = f"IPv6:\nBerechnung für {self.ipv6_hex_str.strip()}"
+            output_ip = (
+                f"Ipv6 Adresse:       {self.ipv6_hex_str}\t {self.ipv6_short_str}")
+            output_prefix = (
+                f"Präfix:             {self.prefix_hex_str}\t {self.prefix_short_str}\n")
+            output_net_id = (
+                f"Netzwerkadresse:    {self.net_id_hex_str}\t {self.net_id_short_str}")
+            output_hosts = (
+                f"Hostanzahl:{" "*(51-len(self.hosts_str))}{self.hosts_str}\n")
+            output_last_adress = (
+                f"Letzte Hostadresse: {self.last_host_adress_hex_str}\n\n")
+            output_head = f"{output_head}\n{"─"*len(output_prefix)}"
             output = [output_head, output_ip, output_prefix, output_net_id, output_hosts, output_last_adress]
             save_window = Save_Output_Window(self, output)
             save_window.grab_set()
@@ -182,7 +188,7 @@ class IPv6Page(tk.Frame):
         except ValueError:
             self.clear_output()
             return self.error_output.config(text=error_message)
-            
+
         except Exception as e:
             self.clear_output()
             return self.error_output.config(text=f"Fehlerhafte Eingabe: {type(e).__name__}")
@@ -256,7 +262,6 @@ class IPv6Page(tk.Frame):
         hosts = 2**hosts_bits
         self.hosts_str = f"{hosts:,.0f}".rjust((39+len(prefix_bit_str)))
         self.hosts_output.config(text=f"{self.hosts_str}")
-        
 
         self.ipv6_hex_str = f"{in_one_hex_str(ipv6_adresses)}{prefix_bit_str}"
         self.ipv6_output.config(text=f"{self.ipv6_hex_str}")
