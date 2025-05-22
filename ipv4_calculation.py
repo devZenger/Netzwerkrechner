@@ -123,13 +123,19 @@ class IPv4Page(tk.Frame):
     # open save window
     def open_save_window(self):
         try:
-            output_head = f"IPv4:\nBerechnung für {self.deci_ipv4_str}\\{cidir}\n\n"
-            output_ip = f"Ipv4 Adresse:\t\t{self.deci_ipv4_str}\t\t{self.binary_ipv4_ads}\n"  
-            output_subnet = f"Subnetzmaske:\t\t{self.deci_subnets_str}\t\t{self.binary_subnets_black}\n"
-            output_wildcard = f"Wildcard-Maske:\t\t{self.deci_wildcard_maks_str}\t\t{self.binary_wildcards}\n"
-            output_net_id = f"Netzwerkadresse:\t{self.deci_net_id_str}\t\t{self.binary_net_id}\n"
-            output_broadcast = f"Broadcast-Adresse:\t{self.deci_broadcast_str}\t\t{self.binary_broadcast_ip}\n"
-            output_hosts = f"Hostanzahl:\t\t\t{self.hosts_str}\n" 
+            output_head = f"IPv4:\nBerechnung für {self.deci_ipv4_str.strip()}\\{cidir}:\n{"─"*76}"
+            output_ip = (
+                f"Ipv4 Adresse:      {self.deci_ipv4_str}\t{self.binary_ipv4_ads}")
+            output_subnet = (
+                f"Subnetzmaske:      {self.deci_subnets_str}\t{self.binary_subnets_black}")
+            output_wildcard = (
+                f"Wildcard-Maske:    {self.deci_wildcard_maks_str}\t{self.binary_wildcards}\n")
+            output_net_id = (
+                f"Netzwerkadresse:   {self.deci_net_id_str}\t{self.binary_net_id}")
+            output_broadcast = (
+                f"Broadcast-Adresse: {self.deci_broadcast_str}\t{self.binary_broadcast_ip}")
+            output_hosts = (
+                f"Hostanzahl:{" "*(23-len(self.hosts_str))}{self.hosts_str}\n\n")
             output = [output_head, output_ip, output_subnet, output_wildcard, output_net_id, output_broadcast, output_hosts]
             save_window = Save_Output_Window(self, output)
             save_window.grab_set()
@@ -155,7 +161,6 @@ class IPv4Page(tk.Frame):
         except Exception as e:
             self.clear_output()
             return self.error_output.config(text=f"Fehler: {type(e).__name__}")
-
 
         for ipv4_adress in ipv4_adresses:
             if ipv4_adress < 0 or ipv4_adress > 255:
