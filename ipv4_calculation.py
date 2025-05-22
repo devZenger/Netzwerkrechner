@@ -136,7 +136,13 @@ class IPv4Page(tk.Frame):
                 f"Broadcast-Adresse: {self.deci_broadcast_str}\t{self.binary_broadcast_ip}")
             output_hosts = (
                 f"Hostanzahl:{" "*(23-len(self.hosts_str))}{self.hosts_str}\n\n")
-            output = [output_head, output_ip, output_subnet, output_wildcard, output_net_id, output_broadcast, output_hosts]
+            output = [output_head,
+                      output_ip,
+                      output_subnet,
+                      output_wildcard,
+                      output_net_id,
+                      output_broadcast,
+                      output_hosts]
             save_window = Save_Output_Window(self, output)
             save_window.grab_set()
         except Exception as e:

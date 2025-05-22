@@ -279,7 +279,7 @@ class IPv6Page(tk.Frame):
         str_length = len(self.ipv6_short_str)
         self.prefix_short_str = f"{in_short(prefix)}"
         if len(self.prefix_short_str) > str_length:
-            str_length = len(self.prefix_short_str) 
+            str_length = len(self.prefix_short_str)
         self.net_id_short_str = f"{in_short(net_ids)}{prefix_bit_str}"
         if len(self.net_id_short_str) > str_length:
             str_length = len(self.net_id_short_str)
