@@ -160,6 +160,7 @@ python Netzwerkrechner.py
 ```
 
 ## Projektverzeichnis
+<pre style="font-size:14px; font-family:Consolas;">
 Netzwerkrechner\
 ├── images/
 │    └── Dcreenshoots für README.md
@@ -172,7 +173,7 @@ Netzwerkrechner\
 ├── netzwerkrechner.py
 ├── README.md
 └── save_output.py
-
+</pre>
 ## Lizenz
 Dieses Projekt steht unter der **MIT-Lizenz** und darf gerne weiterverwendet oder angepasst werden – natürlich unter Einhaltung der Lizenzbedingungen.  
 Es wurde mit viel Lernfreude und Neugier zu Übungs- und Demonstrationszwecken entwickelt.  
