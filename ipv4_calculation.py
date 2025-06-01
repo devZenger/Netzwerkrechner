@@ -174,16 +174,21 @@ class IPv4Page(tk.Frame):
                 return self.error_output.config(text=f"{error_message}")
 
         # CIDIR input check
+        global cidir
         try:
-            global cidir
-            cidir = int(self.cidir_input.get())
-        except Exception as e:
-            self.clear_output()
-            return self.error_output.config(text=f"Fehler: {type(e).__name__}")
+            cidir = int(self.cidir_input.get().strip())
+        except ValueError:
+            try:
+                cidr_str = self.cidir_input.get().strip()
+                cidir = int(cidr_str[1:])
+
+            except Exception as e:
+                self.clear_output()
+                return self.error_output.config(text=f"Fehler: {type(e).__name__}")
 
         if cidir < 0 or cidir > 32:
             self.clear_output()
-            return self.error_output.config(text="Fehlerhafte CIDIR Eingabe")
+            return self.error_output.config(text="Ungültige CIDIR Eingabe")
 
         subnet_mask = [0]*4
         wildcard_mask = [255]*4

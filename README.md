@@ -20,6 +20,7 @@ Die Ergebnisse können optional in einer Textdatei gespeichert werden. Die Anwen
 - [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Projektverzeichnis](#projektverzeichnis)
+- [Hinweise für die Nutzer und Leser](#hinweise-für-alle-nutzer-und-leser)
 - [Lizenz](#lizenz)
 
 ## Projektvorstellung
@@ -32,11 +33,14 @@ Das Programm besteht aus:
 - **einer Klasse zur Speicherung der Ergebnisse als Textdatei**
 - **einer Klasse für Hintergrundinformationen**
 
-Die grafische Oberfläche wurde mit **Tkinter** entwickelt. Eine **integrierte Fehlerbehandlung** sorgt dafür, dass ungültige Eingaben abgefangen und **benutzerfreundliche Rückmeldungen** zurückgegeben werden.  
+Die grafische Oberfläche wurde mit **Tkinter** entwickelt – das in Python integrierten Toolkit, das sich besonders durch seine Einsteigerfreundlichkeit auszeichnet. Eine **integrierte Fehlerbehandlung** sorgt dafür, dass ungültige Eingaben abgefangen und **benutzerfreundliche Rückmeldungen** zurückgegeben werden.  
 Neben den eigenen Algorithmen für die Berechnung ist eine weitere Besonderheit des Programms die Ausgabe der Ergebnisse: Bei IPv4 zusätzlich in **Binärdarstellung**, bei IPv6 in **Kurz- und Langform**.
 
 Für eine einheitliche und gut lesbare Codebasis kam **Flake8** zur Stilprüfung zum Einsatz. Anstelle der üblichen 80 Zeichen pro Zeile wurde die maximale Zeilenlänge projektweit auf 120 Zeichen festgelegt.  
 Mithilfe von **Pyinstaller** entstand eine ausführbare `.exe` Datei. Dadurch lässt sich die Anwendung auch ohne installierte Python-Umgebung direkt starten. Die Datei befindet sich im Ordner `release`.
+
+Das Projekt bot mir eine großartige Gelegenheit, meine ersten Schritte in Python an einem praktischen Problem zu erproben. Ich bekam ein besseres Gefühl dafür, wie Klassen aufgebaut sind, wie in Python zwischen Instanzvaiablen und lokale Variablen innerhalb von Methoden. Außerdem wie essenziell ``try-except``-Blöcke sind, um Programm vor Abstürze durch fehlerhafte Nutzereingaben zu schützen.  
+Ich habe bereits einige Ideen, wie man das Programm künftig erweitern könnte – vielleicht ergibt sich irgendwann die Gelegenheit für eine Version 2.0. Besonders viel Freude war es auch, eine ausführbare Datei zu erstellen und Sie Mitschüler zur Verfügung zu stellen. Im Zuge dessen habe ich dafür gesorgt, dass nun auch CIDIR-Eingaben mit einem „/“  korrekt erkannt und akzeptiert. Daher steht nun Version 1.0.1 zur Verfügung.
 
 
 ## Verwendete Technologien
@@ -163,7 +167,7 @@ python Netzwerkrechner.py
 <pre style="font-size:14px; font-family:Consolas;">
 Netzwerkrechner\
 ├── images/
-│    └── Dcreenshoots für README.md
+│    └── Screenshoots für README.md
 ├── release/
 │    └── Netzwerkrechner.exe
 ├── Beispiel.txt
@@ -174,6 +178,10 @@ Netzwerkrechner\
 ├── README.md
 └── save_output.py
 </pre>
+
+## Hinweise für alle Nutzer und Leser
+Dieses Projekt ist im Rahmen meines Selbststudiums entstanden. Für mich war es eine gute Gelegenheit, Gelerntes direkt in einem echten Anwendungsfall auszuprobieren und dabei ein Demonstrationsprojekt für meine Fähigkeiten auf Github zu erstellen. Ich freue mich, wenn das Programm hilfreich ist oder Anregungen gibt.
+
 ## Lizenz
 Dieses Projekt steht unter der **MIT-Lizenz** und darf gerne weiterverwendet oder angepasst werden – natürlich unter Einhaltung der Lizenzbedingungen.  
 Es wurde mit viel Lernfreude und Neugier zu Übungs- und Demonstrationszwecken entwickelt.  

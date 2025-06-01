@@ -13,7 +13,7 @@ class Info_Window(tk.Toplevel):
         label = tk.Label(self, text="Netzwerkrechner")
         label.pack(pady=10)
 
-        label = tk.Label(self, text="Version 1.0.0 - Mai 2025")
+        label = tk.Label(self, text="Version 1.0.1 - Juni 2025")
         label.pack(pady=10)
 
         label = tk.Label(self, text="Desktop-Tool zur Berechnung\nvon IPv4- und IPv6_Netzwerkdaten.")
