@@ -150,7 +150,7 @@ Es gibt zwei Möglichkeiten das Programm zu nutzen:
 
 ### 2. Mit Pyhton (Quellcode)
 Voraussetzung: Python 3.10 oder neuer muss installiert sein.
-#### 1. Repository klonen
+#### 1. Repository klonen:
  ```bash
 git clone https://github.com/devZenger/Netzwerkrechner.git
 ```
@@ -166,14 +166,15 @@ python Netzwerkrechner.py
 ## Projektverzeichnis
 <pre style="font-size:14px; font-family:Consolas;">
 Netzwerkrechner\
-├── images/
+├── images\
 │    └── Screenshoots für README.md
-├── release/
+├── release\
 │    └── Netzwerkrechner.exe
 ├── Beispiel.txt
 ├── information.py
 ├── ipv4_calculation.py
 ├── ipv6_calculation.py
+├── LICENSE.md
 ├── netzwerkrechner.py
 ├── README.md
 └── save_output.py
@@ -186,3 +187,13 @@ Dieses Projekt ist im Rahmen meines Selbststudiums entstanden. Für mich war es 
 Dieses Projekt steht unter der **MIT-Lizenz** und darf gerne weiterverwendet oder angepasst werden – natürlich unter Einhaltung der Lizenzbedingungen.  
 Es wurde mit viel Lernfreude und Neugier zu Übungs- und Demonstrationszwecken entwickelt.  
 Wenn du Feedback, Fragen oder Ideen hast, freue ich mich über eine Nachricht.
+
+### Verwendete Drittanbieter-Technologien
+- **Python 3.13.1** – [PSF License](https://docs.python.org/3/license.html)
+- **Tkinter** – Teil der Python-Standardbibliothek ([PSF License](https://docs.python.org/3/license.html))
+- **PyInstaller** – [GPL v2 License](https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+GNU+General+Public+License+v2+%28GPLv2%29)
+- **Flake8** – [MIT License](https://github.com/PyCQA/flake8/blob/main/LICENSE)
+- **Mermaid** – [MIT License](https://github.com/mermaid-js/mermaid/blob/develop/LICENSE)
+
+Bitte beachte die jeweiligen Lizenzbedingungen bei Weiterverwendung. 
+
