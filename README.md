@@ -1,47 +1,15 @@
-# Projekt: Netzwerkrechner
-**Desktop-Anwendung zur Berechnung von IPv4- und IPv6-Netzwerkdaten.** Mit diesem Programm lassen sich unter Angabe einer IP-Adresse und einer CIDR-Notation (bei IPv4) bzw. eines Präfixes (bei IPv6) wichtige Netzwerkinformationen berechnen, darunter:
-- Netzwerkadresse
-- Hostanzahl
-- Broadcast-Adresse (nur IPv4)
-- Höchste IP-Adresse im Bereich (nur IPv6)
-
-Die Ergebnisse können optional in einer Textdatei gespeichert werden. Die Anwendung wurde mit **Python** und **Tkinter** entwickelt und **verzichtet bewusst auf externe Netzwerkberechnungs-Bibliotheken - alle Algorithmen wurden selbst implementiert.**
-
-<div style="text-align: center;">
-<b>Netzwerkrechner: Ausgabe einer IPv4 Berechnung</b> <br>
-<img src="images/ipv4_ausgabe.png" alt="IPv4 Ausgabe" title="IPv4 Ausgabe" style="width:70%; height:auto;">
-</div>
+# Netzwerkrechner – IP-Tool mit selbst entwickelter Logik
 
 ## Inhaltsverzeichnis
-- [Projektvorstellung](#projektvorstellung)
 - [Verwendete Technologien](#verwendete-technologien)
+- [Kurzvorstellung](#kurzvorstellung)
 - [Funktionen](#funktionen)
 - [UML-Sequenzdiagramm](#uml-sequenzdiagramm)
 - [Screenshots](#screenshots)
+- [Projektvorstellung](#projektvorstellung)
 - [Installation](#installation)
-- [Projektverzeichnis](#projektverzeichnis)
-- [Hinweise für die Nutzer und Leser](#hinweise-für-alle-nutzer-und-leser)
+- [Hinweise zur Anwendung](#hinweise-für-alle-nutzer-und-leser)
 - [Lizenz](#lizenz)
-
-## Projektvorstellung
-
-Die Idee zu diesem Projekt entstand während des Lernfelds 4, zunächst mit einer einfachen Umsetzung in C#. In Lernfeld 5 wurde es im Rahmen einer Einführung in Python weiterentwickelt.  
-Ziel war es, ein funktionales und lehrreiches Projekt umzusetzen, das grundlegende Netzwerkberechnungen durchführt – **ohne** den Einsatz **externer Bibliotheken**. Stattdessen wurden **alle Berechnungen durch eigene Algorithmen** realisiert. Dabei konnten Kenntnisse in Klassen, Funktionen und GUI-Elementen in Python vertieft werden. Gleichzeitig wurde das Verständnis für die Berechnung von Netzwerkadressen gefestigt – mit einem praktischen Tool als Ergebnis.   
-Das Programm besteht aus:
-- **einer Hauptklasse zur Steuerung der Anwendung**
-- **je einer Klasse für die Berechnung und Anzeige der IP-Adressen**
-- **einer Klasse zur Speicherung der Ergebnisse als Textdatei**
-- **einer Klasse für Hintergrundinformationen**
-
-Die grafische Oberfläche wurde mit **Tkinter** entwickelt – das in Python integrierten Toolkit, das sich besonders durch seine Einsteigerfreundlichkeit auszeichnet. Eine **integrierte Fehlerbehandlung** sorgt dafür, dass ungültige Eingaben abgefangen und **benutzerfreundliche Rückmeldungen** zurückgegeben werden.  
-Neben den eigenen Algorithmen für die Berechnung ist eine weitere Besonderheit des Programms die Ausgabe der Ergebnisse: Bei IPv4 zusätzlich in **Binärdarstellung**, bei IPv6 in **Kurz- und Langform**.
-
-Für eine einheitliche und gut lesbare Codebasis kam **Flake8** zur Stilprüfung zum Einsatz. Anstelle der üblichen 80 Zeichen pro Zeile wurde die maximale Zeilenlänge projektweit auf 120 Zeichen festgelegt.  
-Mithilfe von **Pyinstaller** entstand eine ausführbare `.exe` Datei. Dadurch lässt sich die Anwendung auch ohne installierte Python-Umgebung direkt starten. Die Datei befindet sich im Ordner `release`.
-
-Das Projekt bot mir eine großartige Gelegenheit, meine ersten Schritte in Python an einem praktischen Problem zu erproben. Ich bekam ein besseres Gefühl dafür, wie Klassen aufgebaut sind, wie in Python zwischen Instanzvaiablen und lokale Variablen innerhalb von Methoden. Außerdem wie essenziell ``try-except``-Blöcke sind, um Programm vor Abstürze durch fehlerhafte Nutzereingaben zu schützen.  
-Ich habe bereits einige Ideen, wie man das Programm künftig erweitern könnte – vielleicht ergibt sich irgendwann die Gelegenheit für eine Version 2.0. Besonders viel Freude war es auch, eine ausführbare Datei zu erstellen und Sie Mitschüler zur Verfügung zu stellen. Im Zuge dessen habe ich dafür gesorgt, dass nun auch CIDIR-Eingaben mit einem „/“  korrekt erkannt und akzeptiert. Daher steht nun Version 1.0.1 zur Verfügung.
-
 
 ## Verwendete Technologien
 - **Python 3.13.1**
@@ -49,6 +17,31 @@ Ich habe bereits einige Ideen, wie man das Programm künftig erweitern könnte �
 - **Pyinstaller** – erzeugt eine `.exe`-Datei für Windows
 - **Flake8** – Tool zu Stilprüfung (PEP8) 
 - **Mermaid** – zur Erstellung des UML-Sequenzdiagramms
+
+## Kurzvorstellung
+**Desktop-Anwendung zur Berechnung von IPv4- und IPv6-Netzwerkdaten** – komplett in **Python** mit **eigener IP-Logik**, **GUI mit Tkinter** und **ohne externe Bibliotheken**. Es wurde bewusst auf ein komplexes Architekturmodell verzichtet und ist übersichtlich strukturiert.
+
+Das Tool berechnet:
+- Netzwerkadressen, Hostanzahl, Subnetze
+- Broadcast- und Wildcard-Adressen (IPv4)
+- Höchste IP-Adresse (IPv6)    
+- Darstellung in Dezimal, Binär und Hex (Lang- & Kurzform)
+    
+Zusatzfunktionen:
+- Fehlerbehandlung für falsche Eingaben
+- Ergebnisse als `.txt` speicherbar
+- GUI passt sich je nach IP-Version an
+- Erzeugung einer `.exe` mit PyInstaller
+- portabel, also ohne Installation nutzbar    
+
+**Ziel:** Ein praktisches, lehrreiches Projekt mit Fokus auf Netzwerkgrundlagen und GUI-Entwicklung. **Alle Berechnungen wurden bewusst selbst umgesetzt** – keine Verwendung von IP-Bibliotheken. So konnte ich Python-Konzepte wie Klassen, GUI-Elemente und Fehlerbehandlung praxisnah vertiefen und gelernte Netzwerkgrundlagen wiederholen.
+(Ausführlichere Beschreibung in der [Projektvorstellung](#projektvorstellung).)
+
+
+<div style="text-align: center;">
+<b>Netzwerkrechner: Ausgabe einer IPv4 Berechnung</b> <br>
+<img src="images/ipv4_ausgabe.png" alt="IPv4 Ausgabe" title="IPv4 Ausgabe" style="width:70%; height:auto;">
+</div>
 
 ## Funktionen
 - Intuitive grafische Benutzeroberfläche
@@ -140,6 +133,26 @@ Ich habe bereits einige Ideen, wie man das Programm künftig erweitern könnte �
 <img src="images/beispiel_txt.png" alt="Beispiel .txt-Datei" title="Beispiel .txt-Datei" style="width:80%; height:auto;"></div>
 <br><br>
 
+## Projektvorstellung
+
+Die Idee zu diesem Projekt entstand während des Lernfelds 4, zunächst mit einer einfachen Umsetzung in C#. In Lernfeld 5 wurde es im Rahmen einer Einführung in Python weiterentwickelt.  
+Ziel war es, ein funktionales und lehrreiches Projekt umzusetzen, das grundlegende Netzwerkberechnungen durchführt – **ohne** den Einsatz **externer Bibliotheken**. Stattdessen wurden **alle Berechnungen durch eigene Algorithmen** realisiert. Dabei konnten Kenntnisse in Klassen, Funktionen und GUI-Elementen in Python vertieft werden. Gleichzeitig wurde das Verständnis für die Berechnung von Netzwerkadressen gefestigt – mit einem praktischen Tool als Ergebnis.   
+Das Programm besteht aus:
+- **einer Hauptklasse zur Steuerung der Anwendung**
+- **je einer Klasse für die Berechnung und Anzeige der IP-Adressen**
+- **einer Klasse zur Speicherung der Ergebnisse als Textdatei**
+- **einer Klasse für Hintergrundinformationen**
+
+Die grafische Oberfläche wurde mit **Tkinter** entwickelt – das in Python integrierten Toolkit, das sich besonders durch seine Einsteigerfreundlichkeit auszeichnet. Eine **integrierte Fehlerbehandlung** sorgt dafür, dass ungültige Eingaben abgefangen und **benutzerfreundliche Rückmeldungen** zurückgegeben werden.  
+Neben den eigenen Algorithmen für die Berechnung ist eine weitere Besonderheit des Programms die Ausgabe der Ergebnisse: Bei IPv4 zusätzlich in **Binärdarstellung**, bei IPv6 in **Kurz- und Langform**.
+
+Für eine einheitliche und gut lesbare Codebasis kam **Flake8** zur Stilprüfung zum Einsatz. Anstelle der üblichen 80 Zeichen pro Zeile wurde die maximale Zeilenlänge projektweit auf 120 Zeichen festgelegt.  
+Mithilfe von **Pyinstaller** entstand eine ausführbare `.exe` Datei. Dadurch lässt sich die Anwendung auch ohne installierte Python-Umgebung direkt starten. Die Datei befindet sich im Ordner `release`.
+
+Das Projekt bot mir eine großartige Gelegenheit, meine ersten Schritte in Python an einem praktischen Problem zu erproben. Ich bekam ein besseres Gefühl dafür, wie Klassen aufgebaut sind, wie in Python zwischen Instanz- und lokalen Variablen innerhalb von Methoden unterschieden wird. Außerdem wie essenziell ``try-except``-Blöcke sind, um Programm vor Abstürze durch fehlerhafte Nutzereingaben zu schützen.  
+Ich habe bereits einige Ideen, wie man das Programm künftig erweitern könnte – vielleicht ergibt sich irgendwann die Gelegenheit für eine Version 2.0. Besonders viel Freude war es auch, eine ausführbare Datei zu erstellen und Sie Mitschüler zur Verfügung zu stellen. Im Zuge dessen habe ich dafür gesorgt, dass nun auch CIDR-Eingaben mit einem „/“  korrekt erkannt und akzeptiert. Daher steht nun Version 1.0.1 zur Verfügung.
+
+
 
 ## Installation
 Es gibt zwei Möglichkeiten das Programm zu nutzen:
@@ -163,27 +176,14 @@ cd Netzwerkrechner
 python Netzwerkrechner.py
 ```
 
-## Projektverzeichnis
-<pre style="font-size:14px; font-family:Consolas;">
-Netzwerkrechner\
-├── images\
-│    └── Screenshoots für README.md
-├── release\
-│    └── Netzwerkrechner.exe
-├── Beispiel.txt
-├── information.py
-├── ipv4_calculation.py
-├── ipv6_calculation.py
-├── LICENSE.md
-├── netzwerkrechner.py
-├── README.md
-└── save_output.py
-</pre>
-
-## Hinweise für alle Nutzer und Leser
+## Hinweise zur Anwendung
 Dieses Projekt ist im Rahmen meines Selbststudiums entstanden. Für mich war es eine gute Gelegenheit, Gelerntes direkt in einem echten Anwendungsfall auszuprobieren und dabei ein Demonstrationsprojekt für meine Fähigkeiten auf Github zu erstellen. Ich freue mich, wenn das Programm hilfreich ist oder Anregungen gibt.
 
 ## Lizenz
+
+Copyright (c) 2025 Christian Zenger  
+GitHub: https://github.com/devZenger/Netzwerkrechner  
+
 Dieses Projekt steht unter der **MIT-Lizenz** und darf gerne weiterverwendet oder angepasst werden – natürlich unter Einhaltung der Lizenzbedingungen.  
 Es wurde mit viel Lernfreude und Neugier zu Übungs- und Demonstrationszwecken entwickelt.  
 Wenn du Feedback, Fragen oder Ideen hast, freue ich mich über eine Nachricht.
